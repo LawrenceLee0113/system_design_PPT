@@ -11,12 +11,12 @@ function escapeHtml(value) {
 
 function coverIcon(name) {
   const icons = {
-    "上傳": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M10 12h6"/><path d="M10 16h5"/></svg>',
+    "製作": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16"/><path d="M6 18 15.5 8.5l2 2L8 20H6z"/><path d="M14 6l4 4"/><path d="M10 5h2"/><path d="M5 10h2"/><path d="M17 16h2"/></svg>',
+    "上傳": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10"/><path d="m8 8 4-4 4 4"/><path d="M5 15v4h14v-4"/></svg>',
     "估價": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18H6z"/><path d="M9 7h6"/><path d="M9 11h2"/><path d="M13 11h2"/><path d="M9 15h2"/><path d="M13 15h2"/></svg>',
     "排程": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v4"/><path d="M17 3v4"/><path d="M4 8h16"/><path d="M5 5h14v16H5z"/><path d="M8 13h3"/><path d="M13 13h3"/><path d="M8 17h3"/></svg>',
-    "取件": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-2 12H6z"/><path d="M8 8a4 4 0 0 1 8 0"/><path d="M9 14h6"/></svg>',
     "追蹤": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.2 7-11a7 7 0 0 0-14 0c0 5.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-    "送達": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13 9 17 19 7"/><path d="M21 12a9 9 0 1 1-5.3-8.2"/></svg>'
+    "取件": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16l-2 12H6z"/><path d="M8 8a4 4 0 0 1 8 0"/><path d="M9 14h6"/></svg>'
   };
   return icons[name] || "";
 }
