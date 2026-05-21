@@ -62,8 +62,13 @@
 }
 
 .title-slide::before {
-  background: linear-gradient(rgba(220, 236, 255, 0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 236, 255, 0.12) 1px, transparent 1px), #0d2748;
-  background-size: 28px 28px, 28px 28px, auto;
+  background:
+    radial-gradient(circle at 76% 42%, rgba(41, 178, 196, 0.22), transparent 23%),
+    radial-gradient(circle at 87% 68%, rgba(244, 153, 74, 0.18), transparent 22%),
+    linear-gradient(rgba(220, 236, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(220, 236, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(135deg, #0a1f3a 0%, #123763 58%, #0d2748 100%);
+  background-size: auto, auto, 28px 28px, 28px 28px, auto;
 }
 
 .title-slide h1,
