@@ -1,6 +1,6 @@
-# 系統流程開發五階段簡報
+# 超商型智慧 3D 列印服務系統簡報
 
-這個 repo 保留單一版本的藍圖風 HTML 簡報，適合直接用 GitHub Pages 發布。
+這個 repo 保留單一版本的藍圖風 HTML 簡報，主題為「超商型智慧 3D 列印服務系統」，適合直接用 GitHub Pages 發布。
 
 ## GitHub Pages
 

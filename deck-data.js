@@ -1,79 +1,153 @@
-window.SDLC_DECK = {
-  title: "系統流程開發的五個階段",
-  subtitle: "從一個「線上訂餐系統」的例子，看見需求如何變成可上線、可維護的資訊系統。",
-  tags: ["Planning", "Analysis", "Design", "Implementation", "Maintenance"],
-  sources: [
+window.PRESENTATION_DECK = {
+  styleName: "流程藍圖風",
+  title: "超商型智慧 3D 列印服務系統",
+  subtitle: "結合線上上傳、智慧估價、列印排程與門市取件之系統分析與設計",
+  tags: ["Upload", "Pricing", "Scheduling", "Pickup", "Tracking"],
+  coverMeta: ["課程名稱", "組別", "組員與角色", "指導老師", "日期"],
+  coverNodes: ["上傳", "估價", "排程", "取件", "追蹤"],
+  coreLabel: "3D Print",
+  coreTitle: "超商取件服務",
+  slides: [
     {
-      name: "Workforce LibreTexts",
-      url: "https://workforce.libretexts.org/Bookshelves/Information_Technology/Information_Systems/Information_Systems_for_Business/02%3A_Information_Systems_for_Strategic_Advantage/10%3A_Information_Systems_Development/10.02%3A_Systems_Development_Life_Cycle_%28SDLC%29_Model",
-      note: "Systems Development Life Cycle (SDLC) Model：列出 Planning、Analysis、Design、Implementation、Maintenance 五階段。"
+      type: "cover",
+      eyebrow: "System Analysis & Design",
+      title: "超商型智慧 3D 列印服務系統",
+      body: "結合線上上傳、智慧估價、列印排程與門市取件之系統分析與設計"
     },
     {
-      name: "GeeksforGeeks",
-      url: "https://www.geeksforgeeks.org/system-design/system-development-life-cycle/",
-      note: "System Development Life Cycle：補充 SDLC 各階段的目的與活動，並說明不同階段可依組織拆分。"
-    }
-  ],
-  stages: [
-    {
-      no: "01",
-      zh: "規劃",
-      en: "Planning",
-      short: "確認值得做",
-      title: "規劃：先判斷問題值不值得被系統化",
-      body: "規劃階段會確認專案目標、範圍、預算、時程、利害關係人與可行性。它回答的不是「畫面長怎樣」，而是「為什麼現在要做」。",
-      task: "評估線上訂餐是否能降低電話尖峰、減少漏單，並提高會員回購。",
-      output: "專案章程、初步範圍、成本效益估算、風險清單、Go / No-Go 決策。",
-      artifact: "metric",
-      accent: "teal"
+      type: "narrative",
+      eyebrow: "Background",
+      title: "3D 列印正在普及，但一般使用者仍不容易開始",
+      body: "本專題以超商取件情境作為服務入口，規劃一套讓使用者能在線上完成模型上傳、估價、付款與取件追蹤的智慧 3D 列印服務系統。",
+      points: [
+        ["應用場景", "文創商品、模型製作、零件打樣與教學輔助。"],
+        ["現況限制", "設備昂貴、操作複雜、服務據點有限。"],
+        ["設計動機", "把 3D 列印服務轉成更接近日常生活的取件流程。"]
+      ]
     },
     {
-      no: "02",
-      zh: "分析",
-      en: "Analysis",
-      short: "確認要做什麼",
-      title: "分析：把「大家覺得」變成可驗收需求",
-      body: "分析階段會訪談使用者與業務單位，理解現行流程、痛點、資料需求、權限與例外狀況。此時通常還不寫程式。",
-      task: "訪談顧客、店員、店長與客服，整理下單、改單、缺貨、退款的實際流程。",
-      output: "需求規格書、使用者故事、資料欄位、驗收條件、流程例外清單。",
-      artifact: "flow",
-      accent: "blue"
+      type: "table",
+      eyebrow: "Pain Points",
+      title: "使用者痛點分析",
+      columns: ["痛點", "目前問題", "系統改善方向"],
+      rows: [
+        ["不會操作 3D 列印機", "設定複雜、門檻高", "系統自動檢查模型與估價"],
+        ["不知道價格", "報價不透明", "依材質、體積、時間估價"],
+        ["不知道去哪裡印", "店家不普及", "結合超商據點"],
+        ["等待時間不清楚", "無法掌握進度", "提供訂單狀態追蹤"],
+        ["取件不方便", "需到指定工作室", "附近超商取件"]
+      ]
     },
     {
-      no: "03",
-      zh: "設計",
-      en: "Design",
-      short: "確認怎麼做",
-      title: "設計：把需求轉成工程團隊可建造的藍圖",
-      body: "設計階段會決定系統架構、資料庫、介面、API、權限、報表與整合方式。好的設計會讓後續實作少猜測、少返工。",
-      task: "設計訂單服務、菜單服務、付款串接、門市後台與會員資料流。",
-      output: "系統設計文件、ERD、API 規格、Wireframe、權限矩陣、測試策略草案。",
-      artifact: "architecture",
-      accent: "coral"
+      type: "goals",
+      eyebrow: "Positioning",
+      title: "系統目標與服務定位",
+      goals: [
+        "降低一般使用者使用 3D 列印的門檻",
+        "建立線上化的模型上傳與訂單流程",
+        "提供自動估價與列印排程",
+        "結合超商據點提升取件便利性",
+        "讓 3D 列印服務更接近日常生活場景"
+      ],
+      positioning: "本系統不是販售 3D 列印機，而是提供「像超商影印一樣方便」的 3D 列印服務。"
     },
     {
-      no: "04",
-      zh: "實作",
-      en: "Implementation",
-      short: "做出可用系統",
-      title: "實作：把設計文件變成可測試、可導入的系統",
-      body: "實作階段包含寫程式、整合元件、測試、資料轉換、使用者訓練與上線準備。許多模型會把測試或部署拆出來，但五階段版本常放在實作內處理。",
-      task: "完成下單流程、付款回呼、門市接單頁，並進行單元測試、整合測試與使用者驗收。",
-      output: "可運行系統、測試報告、訓練文件、資料移轉腳本、上線檢查表。",
-      artifact: "code",
-      accent: "gold"
+      type: "tableWithNote",
+      eyebrow: "SDLC Scope",
+      title: "系統開發生命週期與本專題範圍",
+      note: "本專題主要聚焦於系統規劃、需求分析與系統設計三個階段，並以介面原型與部分功能流程展示作為系統建置概念驗證。",
+      columns: ["SDLC 階段", "本專題工作"],
+      rows: [
+        ["系統規劃", "題目定位、可行性分析、系統範圍"],
+        ["系統需求分析", "使用者需求、功能需求、非功能需求"],
+        ["系統設計", "流程圖、資料庫、介面原型、架構設計"],
+        ["系統建置與測試", "製作基本 Demo 或原型"],
+        ["系統上線與維護", "提出後續擴充與維護方向"]
+      ]
     },
     {
-      no: "05",
-      zh: "維護",
-      en: "Maintenance",
-      short: "讓系統持續可靠",
-      title: "維護：讓系統在真實世界裡繼續健康運作",
-      body: "維護階段會處理錯誤回報、修補、備份、效能、安全更新與新功能優先順序。它也會把營運回饋帶回下一輪規劃。",
-      task: "上線後監控付款失敗率、熱門時段效能、門市缺貨同步與客服回報。",
-      output: "版本更新、問題單、SLA 報表、備份紀錄、下一版需求池。",
-      artifact: "health",
-      accent: "violet"
+      type: "tableWithNote",
+      eyebrow: "Team Roles",
+      title: "組員角色與分工",
+      note: "系統分析師協助程式設計師定義資料欄位、功能流程、API 需求與測試案例，使程式設計能依照需求規格進行。",
+      columns: ["角色", "負責內容", "對應產出"],
+      rows: [
+        ["使用者代表", "痛點、需求、使用情境、驗收標準", "使用者需求分析"],
+        ["PM", "專案目標、範圍、時程、可行性、風險", "系統規劃書"],
+        ["系統分析師", "需求整理、Use Case、DFD、ERD、流程分析", "系統需求書"],
+        ["程式設計師", "系統架構、資料庫、介面原型、Demo", "設計規格與原型"]
+      ]
+    },
+    {
+      type: "flow",
+      eyebrow: "User Scenario",
+      title: "使用者情境與主要流程",
+      story: "小明是設計科學生，需要列印一個小型模型，但學校設備排隊時間長，也不熟悉 3D 列印設定。因此他透過本系統上傳模型、選擇 PLA 材質與附近超商門市，完成估價付款後等待通知取件。",
+      steps: ["註冊 / 登入", "上傳 3D 模型", "系統檢查模型", "選擇材質與品質", "系統自動估價", "選擇取件門市", "建立訂單與付款", "門市列印", "通知取件", "使用者取件"]
+    },
+    {
+      type: "table",
+      eyebrow: "Functional Requirements",
+      title: "功能需求分析",
+      columns: ["功能模組", "功能說明"],
+      rows: [
+        ["使用者管理", "註冊、登入、會員資料管理"],
+        ["模型上傳", "上傳 STL / OBJ 等 3D 模型檔案"],
+        ["模型檢查", "檢查檔案格式、大小、是否可列印"],
+        ["智慧估價", "根據材質、體積、列印時間計算價格"],
+        ["門市選擇", "查詢附近可列印或可取件門市"],
+        ["訂單管理", "建立訂單、查詢狀態、取消訂單"],
+        ["列印排程", "依設備與訂單狀態安排列印順序"],
+        ["通知系統", "完成列印後通知使用者取件"]
+      ]
+    },
+    {
+      type: "requirements",
+      eyebrow: "Requirement Spec",
+      title: "系統需求書內容摘要",
+      intro: "系統需求書的目的，是將使用者提出的需求轉換為具體、可設計、可測試的系統規格，讓後續系統設計與程式開發有明確依據。",
+      cards: [
+        ["功能需求", "系統必須提供的功能，例如上傳、估價、下單、取件。"],
+        ["非功能需求", "效能、安全性、可用性、可維護性與資料保護。"],
+        ["資料需求", "使用者資料、模型資料、訂單資料、門市資料、設備資料。"]
+      ]
+    },
+    {
+      type: "architecture",
+      eyebrow: "System Design",
+      title: "系統架構與資料設計",
+      layers: [
+        ["使用者端", "學生、創作者、一般使用者"],
+        ["Web / App 介面", "模型上傳、估價、取件門市、訂單追蹤"],
+        ["後端系統", "使用者管理、模型檢查、智慧估價、訂單管理、列印排程、通知服務"],
+        ["資料庫", "使用者、門市、設備、模型檔案、材質、訂單、付款、通知紀錄"]
+      ],
+      columns: ["資料表", "內容"],
+      rows: [
+        ["User", "使用者資料"],
+        ["Store", "超商門市資料"],
+        ["Printer", "3D 列印設備資料"],
+        ["ModelFile", "模型檔案資料"],
+        ["Material", "材質資料"],
+        ["Order", "訂單資料"],
+        ["Payment", "付款資料"],
+        ["Notification", "通知紀錄"]
+      ]
+    },
+    {
+      type: "prototype",
+      eyebrow: "Prototype",
+      title: "介面原型與系統展示",
+      intro: "本專題以介面原型呈現使用者實際操作流程，讓系統需求不只停留在文字描述，也能轉換成具體的使用畫面與操作邏輯。",
+      screens: ["首頁", "上傳模型頁", "材質選擇頁", "自動估價頁", "選擇門市頁", "訂單狀態頁", "後台排程頁"]
+    },
+    {
+      type: "closing",
+      eyebrow: "Conclusion",
+      title: "結論與未來擴充",
+      conclusion: "本專題透過系統分析與設計方法，將 3D 列印服務結合超商取件模式，提出一套降低使用門檻、提升取件便利性與改善訂單透明度的智慧服務系統。",
+      future: ["加入 AI 模型修復功能", "支援即時門市設備狀態查詢", "增加多材質、多色列印", "與超商會員系統整合", "建立商家 / 創作者上架模型平台", "支援學校、設計工作室、創客空間合作"],
+      scope: "第一階段聚焦小型 3D 模型列印、線上上傳、自動估價、門市取件與訂單追蹤。"
     }
   ]
 };
