@@ -13,7 +13,7 @@ window.PRESENTATION_DECK = {
     "許睿恩：使用者",
     "簡柏文：系統分析師"
   ],
-  coverNodes: ["上傳", "估價", "排程", "取件", "追蹤"],
+  coverNodes: ["上傳", "估價", "排程", "取件", "追蹤", "送達"],
   coreLabel: "3D Print",
   coreTitle: "超商取件服務",
   slides: [

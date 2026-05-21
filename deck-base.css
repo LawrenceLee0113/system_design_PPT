@@ -193,7 +193,7 @@ p,
 
 .cover-flow-line {
   position: absolute;
-  inset: 6% 4% 8%;
+  inset: 0;
   z-index: 0;
   overflow: visible;
   pointer-events: none;
@@ -203,7 +203,7 @@ p,
 .flow-segment {
   fill: none;
   stroke: rgba(220, 236, 255, 0.42);
-  stroke-width: 2.45;
+  stroke-width: 2.3;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: none;
@@ -252,8 +252,10 @@ p,
 }
 
 .stage-pill {
-  width: 98px;
-  height: 92px;
+  width: 112px;
+  height: 96px;
+  left: 50%;
+  top: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -267,6 +269,7 @@ p,
   clip-path: none;
   box-shadow: none;
   isolation: isolate;
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
 
@@ -278,17 +281,17 @@ p,
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 3px;
-  width: 34px;
-  height: 2px;
+  bottom: 0;
+  width: 42px;
+  height: 3px;
   background: currentColor;
   opacity: 0.82;
   transform: translateX(-50%);
 }
 
 .stage-pill .node-icon {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   margin-bottom: 0;
   color: currentColor;
   filter: drop-shadow(0 0 8px currentColor);
@@ -307,43 +310,49 @@ p,
 
 .stage-pill strong {
   color: #f7fbff;
-  font-size: 1.15rem;
+  font-size: 1.26rem;
   line-height: 1;
   text-shadow: 0 0 12px color-mix(in srgb, var(--node-color, #6ee0ff) 58%, transparent);
 }
 
 .p1 {
-  top: 7%;
-  left: 42%;
+  left: 32.25%;
+  top: 19.26%;
   --node-color: #65d9ff;
 }
 
 .p2 {
-  top: 27%;
-  right: 5%;
+  left: 67.75%;
+  top: 19.26%;
   --node-color: #ffc66e;
 }
 
 .p3 {
-  right: 18%;
-  bottom: 8%;
+  left: 85.5%;
+  top: 50%;
   --node-color: #6ff0df;
 }
 
 .p4 {
-  bottom: 11%;
-  left: 15%;
+  left: 67.75%;
+  top: 80.74%;
   --node-color: #ff8f7e;
 }
 
 .p5 {
-  top: 27%;
-  left: 5%;
+  left: 32.25%;
+  top: 80.74%;
   --node-color: #bca2ff;
 }
 
+.p6 {
+  left: 14.5%;
+  top: 50%;
+  --node-color: #9ee493;
+}
+
 .system-core {
-  inset: 28% 30%;
+  inset: 33% 34%;
   border: 1px solid rgba(110, 224, 255, 0.42);
   border-radius: 24px;
   background:
@@ -361,7 +370,7 @@ p,
 .system-core::before {
   content: "";
   position: absolute;
-  inset: -12px;
+  inset: -10px;
   z-index: -1;
   border: 1px dashed rgba(110, 224, 255, 0.42);
   border-radius: 32px;
@@ -370,8 +379,8 @@ p,
 
 .system-core img {
   display: block;
-  width: 88%;
-  height: 88%;
+  width: 82%;
+  height: 82%;
   object-fit: contain;
   object-position: center center;
 }
