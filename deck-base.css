@@ -214,18 +214,7 @@ p,
 }
 
 .stage-pill::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 72px;
-  height: 72px;
-  z-index: -1;
-  border: 1px solid color-mix(in srgb, var(--node-color, #6ee0ff) 48%, transparent);
-  border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--node-color, #6ee0ff) 16%, transparent), transparent 62%);
-  box-shadow: 0 0 28px color-mix(in srgb, var(--node-color, #6ee0ff) 26%, transparent);
-  transform: translate(-50%, -50%);
+  display: none;
 }
 
 .stage-pill::after {
