@@ -1,0 +1,42 @@
+:root {
+  --body-font: Inter, "Noto Sans TC", "PingFang TC", Arial, sans-serif;
+  --display-font: Inter, "Noto Sans TC", "PingFang TC", Arial, sans-serif;
+  --page: #f4f7f7;
+  --surface: linear-gradient(135deg, rgba(10, 91, 102, 0.08) 0 20%, transparent 20%), #ffffff;
+  --ink: #172326;
+  --heading: #10191b;
+  --muted: #617174;
+  --lede: #617174;
+  --accent: #0a6b78;
+  --progress-track: rgba(16, 25, 27, 0.08);
+  --progress-fill: linear-gradient(90deg, #0a6b78, #da5b4f, #d29d35);
+  --frame-border: 1px solid rgba(16, 25, 27, 0.08);
+  --frame-radius: 18px;
+  --shadow: 0 24px 70px rgba(16, 25, 27, 0.14);
+  --pill-border: 1px solid rgba(10, 107, 120, 0.18);
+  --pill-bg: #eef8f8;
+  --pill-ink: #0a6b78;
+  --pill-radius: 999px;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-border: 1px solid rgba(16, 25, 27, 0.1);
+  --card-radius: 8px;
+  --card-shadow: 0 14px 38px rgba(16, 25, 27, 0.08);
+  --divider: 1px solid rgba(16, 25, 27, 0.1);
+  --table-head: #10191b;
+  --table-head-ink: #ffffff;
+  --control-border: 1px solid rgba(16, 25, 27, 0.1);
+  --control-bg: rgba(255, 255, 255, 0.86);
+  --control-shadow: 0 14px 36px rgba(16, 25, 27, 0.12);
+  --control-ink: #10191b;
+  --button: #10191b;
+  --button-ink: #ffffff;
+}
+
+.hero-card {
+  background: linear-gradient(155deg, #10191b 0 52%, #eef8f8 52%);
+}
+
+.hero-card strong,
+.hero-card p {
+  color: #ffffff;
+}

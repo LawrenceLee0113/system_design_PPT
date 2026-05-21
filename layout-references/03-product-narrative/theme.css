@@ -1,0 +1,55 @@
+:root {
+  --body-font: Inter, "Noto Sans TC", "PingFang TC", Arial, sans-serif;
+  --display-font: Inter, "Noto Sans TC", "PingFang TC", Arial, sans-serif;
+  --page: #f8fbf8;
+  --surface: linear-gradient(140deg, rgba(18, 168, 143, 0.16) 0 20%, transparent 20%), linear-gradient(320deg, rgba(255, 114, 77, 0.14) 0 18%, transparent 18%), #ffffff;
+  --ink: #18211f;
+  --heading: #17201d;
+  --muted: #62706a;
+  --lede: #62706a;
+  --accent: #12a88f;
+  --progress-track: rgba(24, 33, 31, 0.08);
+  --progress-fill: linear-gradient(90deg, #12a88f, #f1bd37, #ff724d);
+  --frame-border: 1px solid rgba(24, 33, 31, 0.08);
+  --frame-radius: 28px;
+  --shadow: 0 24px 70px rgba(24, 33, 31, 0.14);
+  --pill-border: 1px solid rgba(24, 33, 31, 0.1);
+  --pill-bg: #effaf7;
+  --pill-ink: #17201d;
+  --pill-radius: 999px;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-border: 1px solid rgba(24, 33, 31, 0.09);
+  --card-radius: 8px;
+  --card-shadow: 0 14px 34px rgba(24, 33, 31, 0.08);
+  --divider: 1px solid rgba(24, 33, 31, 0.1);
+  --table-head: #17201d;
+  --table-head-ink: #ffffff;
+  --control-border: 1px solid rgba(24, 33, 31, 0.1);
+  --control-bg: rgba(255, 255, 255, 0.86);
+  --control-shadow: 0 14px 36px rgba(24, 33, 31, 0.12);
+  --control-ink: #17201d;
+  --button: #12a88f;
+  --button-ink: #ffffff;
+}
+
+.hero-card {
+  background: linear-gradient(150deg, #ffffff 0 38%, #12a88f 38%);
+}
+
+.hero-card strong,
+.hero-card p {
+  color: #ffffff;
+}
+
+.journey {
+  align-content: center;
+  gap: 16px;
+}
+
+.journey span {
+  padding: 18px;
+  border-radius: 8px;
+  background: #effaf7;
+  color: #17201d;
+  font-weight: 900;
+}

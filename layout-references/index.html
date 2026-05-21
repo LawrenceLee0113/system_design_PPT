@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>排版參考簡報選擇</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: #f6f8f4;
+        color: #151713;
+        font-family: Inter, "Noto Sans TC", "PingFang TC", Arial, sans-serif;
+      }
+      main {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+      h1 {
+        max-width: 880px;
+        margin: 0 0 14px;
+        font-size: clamp(2.6rem, 7vw, 5.8rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+      p {
+        max-width: 760px;
+        color: #657068;
+        font-size: 1.15rem;
+        line-height: 1.75;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 34px;
+      }
+      a {
+        min-height: 300px;
+        display: grid;
+        align-content: end;
+        gap: 10px;
+        padding: 22px;
+        border: 1px solid rgba(21, 23, 19, 0.1);
+        border-radius: 10px;
+        color: inherit;
+        text-decoration: none;
+        box-shadow: 0 14px 38px rgba(21, 23, 19, 0.08);
+      }
+      a:nth-child(1) { background: linear-gradient(150deg, #f7f9f6 0 40%, #151713 40%); color: #ffffff; }
+      a:nth-child(2) { background: linear-gradient(150deg, #ffffff 0 38%, #0a6b78 38%); color: #ffffff; }
+      a:nth-child(3) { background: linear-gradient(150deg, #ffffff 0 38%, #12a88f 38%); color: #ffffff; }
+      a:nth-child(4) { background: linear-gradient(150deg, #fffbf2 0 38%, #b24b33 38%); color: #fff8ec; }
+      strong {
+        font-size: 1.35rem;
+      }
+      span {
+        color: currentColor;
+        opacity: 0.78;
+        line-height: 1.5;
+      }
+      @media (max-width: 900px) {
+        .grid { grid-template-columns: 1fr; }
+        a { min-height: 190px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>排版參考簡報</h1>
+      <p>這裡保留你喜歡的企業顧問風複製版，另外新增三種可套用到不同主題的完整排版 deck。之後要做正式簡報時，可以直接挑一套當版型參考。</p>
+      <section class="grid" aria-label="排版參考選擇">
+        <a href="./01-executive-copy/index.html"><strong>01 企業顧問風複製版</strong><span>保留原本你覺得不錯的正式簡報版型。</span></a>
+        <a href="./02-investor-dashboard/index.html"><strong>02 數據決策型</strong><span>適合營運回顧、董事會更新、KPI 報告。</span></a>
+        <a href="./03-product-narrative/index.html"><strong>03 產品故事型</strong><span>適合產品提案、服務改版、功能發表。</span></a>
+        <a href="./04-workshop-playbook/index.html"><strong>04 工作坊手冊型</strong><span>適合教育訓練、共創會議、專案啟動。</span></a>
+      </section>
+    </main>
+  </body>
+</html>
