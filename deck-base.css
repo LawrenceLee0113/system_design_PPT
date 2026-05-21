@@ -218,27 +218,27 @@ p,
 }
 
 .flow-1 {
-  stroke: rgba(101, 217, 255, 0.9);
+  stroke: #65d9ff;
   animation-delay: 0s;
 }
 
 .flow-2 {
-  stroke: rgba(255, 198, 110, 0.86);
+  stroke: #ffc66e;
   animation-delay: -0.7s;
 }
 
 .flow-3 {
-  stroke: rgba(111, 240, 223, 0.86);
+  stroke: #6ff0df;
   animation-delay: -1.4s;
 }
 
 .flow-4 {
-  stroke: rgba(255, 143, 126, 0.84);
+  stroke: #ff8f7e;
   animation-delay: -2.1s;
 }
 
 .flow-5 {
-  stroke: rgba(188, 162, 255, 0.86);
+  stroke: #bca2ff;
   animation-delay: -2.8s;
 }
 

@@ -32,10 +32,10 @@ function renderCoverVisual() {
           </marker>
         </defs>
         <path class="flow-segment flow-1" d="M 37.86 16.64 A 35.5 35.5 0 0 1 62.14 16.64"></path>
-        <path class="flow-segment flow-2" d="M 72.82 22.81 A 35.5 35.5 0 0 1 85.5 50"></path>
-        <path class="flow-segment flow-3" d="M 84.96 56.16 A 35.5 35.5 0 0 1 72.82 77.19"></path>
+        <path class="flow-segment flow-2" d="M 72.82 22.81 A 35.5 35.5 0 0 1 83.52 37.86"></path>
+        <path class="flow-segment flow-3" d="M 84.5 61.5 A 35.5 35.5 0 0 1 72.82 77.19"></path>
         <path class="flow-segment flow-4" d="M 62.14 83.36 A 35.5 35.5 0 0 1 37.86 83.36"></path>
-        <path class="flow-segment flow-5" d="M 27.18 77.19 A 35.5 35.5 0 0 1 14.5 50"></path>
+        <path class="flow-segment flow-5" d="M 27.18 77.19 A 35.5 35.5 0 0 1 16.48 62.14"></path>
       </svg>
       ${deck.coverNodes
         .map(
