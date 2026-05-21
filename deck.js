@@ -24,12 +24,22 @@ function renderCoverVisual() {
   return `
     <div class="cover-visual" aria-label="服務流程藍圖">
       <div class="loop-line"></div>
+      <svg class="cover-flow-line" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <marker id="flowArrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="4.6" markerHeight="4.6" markerUnits="userSpaceOnUse" orient="auto">
+            <path d="M 0 0 L 8 4 L 0 8 z" fill="context-stroke"></path>
+          </marker>
+        </defs>
+        <path class="flow-segment flow-1" d="M 56 11 C 69 8, 79 18, 84 30"></path>
+        <path class="flow-segment flow-2" d="M 88 35 C 96 52, 90 68, 75 77"></path>
+        <path class="flow-segment flow-3" d="M 69 82 C 55 91, 41 90, 27 78"></path>
+        <path class="flow-segment flow-4" d="M 20 74 C 8 61, 6 47, 12 35"></path>
+      </svg>
       ${deck.coverNodes
         .map(
           (node, index) => `
           <div class="stage-pill p${index + 1}">
             <span class="node-icon">${coverIcon(node)}</span>
-            <span>${String(index + 1).padStart(2, "0")}</span>
             <strong>${escapeHtml(node)}</strong>
           </div>`
         )

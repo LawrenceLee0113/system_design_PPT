@@ -191,6 +191,57 @@ p,
   display: none;
 }
 
+.cover-flow-line {
+  position: absolute;
+  inset: 6% 4% 8%;
+  z-index: 0;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 0 7px rgba(110, 224, 255, 0.34));
+}
+
+.flow-segment {
+  fill: none;
+  stroke: rgba(220, 236, 255, 0.42);
+  stroke-width: 2.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  marker-end: url(#flowArrow);
+  animation: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.cover-flow-line marker path {
+  fill: context-stroke;
+}
+
+.flow-1 {
+  stroke: rgba(101, 217, 255, 0.9);
+  animation-delay: 0s;
+}
+
+.flow-2 {
+  stroke: rgba(255, 198, 110, 0.86);
+  animation-delay: -0.7s;
+}
+
+.flow-3 {
+  stroke: rgba(111, 240, 223, 0.86);
+  animation-delay: -1.4s;
+}
+
+.flow-4 {
+  stroke: rgba(255, 143, 126, 0.84);
+  animation-delay: -2.1s;
+}
+
+.flow-5 {
+  stroke: rgba(188, 162, 255, 0.86);
+  animation-delay: -2.8s;
+}
+
 .stage-pill,
 .system-core {
   position: absolute;
@@ -203,6 +254,11 @@ p,
 .stage-pill {
   width: 98px;
   height: 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -211,6 +267,7 @@ p,
   clip-path: none;
   box-shadow: none;
   isolation: isolate;
+  z-index: 2;
 }
 
 .stage-pill::before {
@@ -229,17 +286,13 @@ p,
   transform: translateX(-50%);
 }
 
-.stage-pill span {
-  font-size: 0.78rem;
-  font-weight: 900;
-}
-
 .stage-pill .node-icon {
   width: 32px;
   height: 32px;
-  margin-bottom: 4px;
+  margin-bottom: 0;
   color: currentColor;
   filter: drop-shadow(0 0 8px currentColor);
+  flex: 0 0 auto;
 }
 
 .stage-pill svg {
@@ -255,6 +308,7 @@ p,
 .stage-pill strong {
   color: #f7fbff;
   font-size: 1.15rem;
+  line-height: 1;
   text-shadow: 0 0 12px color-mix(in srgb, var(--node-color, #6ee0ff) 58%, transparent);
 }
 
@@ -289,7 +343,7 @@ p,
 }
 
 .system-core {
-  inset: 26% 30% 34%;
+  inset: 28% 30%;
   border: 1px solid rgba(110, 224, 255, 0.42);
   border-radius: 24px;
   background:
@@ -301,6 +355,7 @@ p,
     0 0 34px rgba(110, 224, 255, 0.2),
     14px 14px 0 rgba(2, 18, 38, 0.2),
     0 22px 44px rgba(0, 0, 0, 0.28);
+  z-index: 3;
 }
 
 .system-core::before {
@@ -315,9 +370,10 @@ p,
 
 .system-core img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 88%;
+  height: 88%;
   object-fit: contain;
+  object-position: center center;
 }
 
 .two-col {
