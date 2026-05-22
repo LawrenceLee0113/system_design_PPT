@@ -67,6 +67,18 @@ function renderArrowList(items, className = "") {
   return `<div class="arrow-list ${className}">${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>`;
 }
 
+function diagramIcon(type) {
+  const icons = {
+    person: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>',
+    store: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16"/><path d="M5 10l2-6h10l2 6"/><path d="M6 10v10h12V10"/><path d="M9 20v-6h6v6"/></svg>',
+    headset: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 13v-2a7 7 0 0 1 14 0v2"/><path d="M5 13h3v5H5z"/><path d="M16 13h3v5h-3z"/><path d="M12 20h3"/><path d="M19 18a4 4 0 0 1-4 2"/></svg>',
+    gear: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a8 8 0 0 0-1.7-1L14.5 3h-5l-.3 3a8 8 0 0 0-1.7 1l-2.4-1-2 3.5L5.1 11a7 7 0 0 0 0 2l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 1.7 1l.3 3h5l.3-3a8 8 0 0 0 1.7-1l2.4 1 2-3.5-2-1.5a7 7 0 0 0 .1-1z"/></svg>',
+    payment: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v10H4z"/><path d="M4 10h16"/><path d="M7 14h4"/></svg>',
+    notification: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-2 7-2 9h16c0-2-2-2-2-9"/><path d="M10 21h4"/></svg>'
+  };
+  return icons[type] || icons.person;
+}
+
 const renderers = {
   cover(slide) {
     return `
@@ -303,37 +315,56 @@ const renderers = {
   },
 
   useCase(slide) {
+    const actorLines = [
+      ["actor", "M 12 16 L 24 16"],
+      ["actor", "M 12 38 L 24 38"],
+      ["actor", "M 12 58 L 24 58"],
+      ["actor", "M 12 77 L 24 77"],
+      ["external", "M 78 30 L 89 30"],
+      ["notify", "M 78 47 L 89 66"],
+      ["notify", "M 78 57 L 89 66"]
+    ]
+      .map(([type, d]) => `<path class="usecase-link ${escapeHtml(type)}" d="${escapeHtml(d)}" />`)
+      .join("");
     return `
       <section class="slide usecase-slide" data-title="${escapeHtml(slide.title)}">
         <header class="slide-header">
           <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
           <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.description)}</p>
         </header>
-        <div class="usecase-layout">
-          <div class="system-boundary">
-            <strong>服務系統邊界</strong>
-            <div class="usecase-chips">
-              ${slide.actors
-                .flatMap(([, cases]) => cases)
-                .filter((item, index, array) => array.indexOf(item) === index)
-                .slice(0, 18)
-                .map((item) => `<span>${escapeHtml(item)}</span>`)
+        <div class="formal-usecase-board">
+          <svg class="usecase-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${actorLines}</svg>
+          <div class="usecase-main-area">
+          <aside class="diagram-actors" aria-label="Actor 角色">
+            ${slide.leftActors
+              .map((actor) => `<article class="diagram-actor" data-actor="${escapeHtml(actor.id)}"><i>${diagramIcon(actor.icon)}</i><strong>${escapeHtml(actor.name)}</strong></article>`)
+              .join("")}
+          </aside>
+          <div class="usecase-system-boundary">
+            <strong class="usecase-boundary-title">${escapeHtml(slide.systemBoundary)}</strong>
+            <div class="usecase-group-grid">
+              ${slide.useCaseGroups
+                .map(
+                  (group) => `
+                  <section class="usecase-group usecase-group-${escapeHtml(group.id)}" data-group="${escapeHtml(group.id)}">
+                    <span class="usecase-group-label">${escapeHtml(group.label)}</span>
+                    <div class="usecase-pill-grid">
+                      ${group.items.map((item) => `<span class="usecase-pill" data-id="${escapeHtml(item.id)}">${escapeHtml(item.label)}</span>`).join("")}
+                    </div>
+                  </section>`
+                )
                 .join("")}
             </div>
           </div>
-          <div class="actor-grid">
-            ${slide.actors
-              .map(
-                ([actor, cases]) => `
-                <article>
-                  <h3>${escapeHtml(actor)}</h3>
-                  <p>${cases.map((item) => escapeHtml(item)).join("、")}</p>
-                </article>`
-              )
+          <aside class="external-systems" aria-label="外部系統">
+            ${slide.externalSystems
+              .map((system) => `<article class="external-system" data-system="${escapeHtml(system.id)}"><i>${diagramIcon(system.id === "paymentGateway" ? "payment" : "notification")}</i><strong>${escapeHtml(system.name)}</strong><span>${escapeHtml(system.action)}</span></article>`)
               .join("")}
+          </aside>
           </div>
         </div>
-        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+        <div class="permission-note"><p>${escapeHtml(slide.note)}</p></div>
       </section>`;
   },
 
@@ -373,6 +404,30 @@ const renderers = {
       </section>`;
   },
 
+  designSpecOverview(slide) {
+    return `
+      <section class="slide design-spec-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="design-spec-grid">
+          ${slide.items
+            .map(
+              (item, index) => `
+              <article>
+                <span>${String(index + 1).padStart(2, "0")}</span>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.body)}</p>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.handoff)}</p></div>
+      </section>`;
+  },
+
   prototype(slide) {
     return `
       <section class="slide prototype-slide" data-title="介面原型">
@@ -395,6 +450,19 @@ const renderers = {
   },
 
   erd(slide) {
+    if (slide.image) {
+      return `
+        <section class="slide erd-image-slide" data-title="${escapeHtml(slide.title)}">
+          <header class="slide-header">
+            <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+            <h2>${escapeHtml(slide.title)}</h2>
+          </header>
+          <figure class="erd-image-frame">
+            <img src="${escapeHtml(slide.image.src)}" alt="${escapeHtml(slide.image.alt)}" />
+            ${slide.note ? `<figcaption>${escapeHtml(slide.note)}</figcaption>` : ""}
+          </figure>
+        </section>`;
+    }
     return `
       <section class="slide erd-slide" data-title="${escapeHtml(slide.title)}">
         <header class="slide-header">
@@ -428,6 +496,31 @@ const renderers = {
           <div>${slide.exceptions.map((state) => `<span>${escapeHtml(state)}</span>`).join("")}</div>
         </div>
         <div class="stage-handoff-note compact"><p>${escapeHtml(slide.rule)}</p></div>
+      </section>`;
+  },
+
+  moduleIO(slide) {
+    return `
+      <section class="slide module-io-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="module-io-grid">
+          ${slide.modules
+            .map(
+              (module) => `
+              <article>
+                <h3>${escapeHtml(module.name)}</h3>
+                <div><strong>輸入</strong><p>${escapeHtml(module.input)}</p></div>
+                <div><strong>處理</strong><p>${escapeHtml(module.process)}</p></div>
+                <div><strong>輸出</strong><p>${escapeHtml(module.output)}</p></div>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
       </section>`;
   },
 

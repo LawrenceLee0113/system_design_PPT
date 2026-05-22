@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">超商型智慧 3D 列印服務系統 ERD</title>
+  <desc id="desc">顯示 User、Order、ModelFile、Payment、Store、Printer、Material、Notification、OrderStatusLog、Refund、Review、PriceRule、StoreInventory、PickupRecord 等資料表與關聯。</desc>
+  <defs>
+    <style>
+      .bg { fill: #f9fbff; }
+      .grid { fill: none; stroke: rgba(34, 81, 139, 0.1); stroke-width: 1; }
+      .entity { fill: #ffffff; stroke: #22518b; stroke-width: 2; }
+      .entity-main { fill: #eef6ff; stroke: #e45643; stroke-width: 3; }
+      .header { fill: #22518b; }
+      .header-main { fill: #e45643; }
+      .title { fill: #ffffff; font: 800 22px "Avenir Next", "Noto Sans TC", Arial, sans-serif; }
+      .field { fill: #10243d; font: 500 16px "Avenir Next", "Noto Sans TC", Arial, sans-serif; }
+      .pk { fill: #e45643; font-weight: 800; }
+      .fk { fill: #22518b; font-weight: 800; }
+      .rel { fill: none; stroke: #22518b; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+      .rel-soft { fill: none; stroke: #c89a2f; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 8 8; }
+      .label { fill: #52677f; font: 800 15px "Avenir Next", "Noto Sans TC", Arial, sans-serif; }
+      .note { fill: #52677f; font: 600 15px "Avenir Next", "Noto Sans TC", Arial, sans-serif; }
+    </style>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" class="grid"/>
+    </pattern>
+    <marker id="many" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto" markerUnits="strokeWidth">
+      <path d="M 2 2 L 14 8 L 2 14" fill="none" stroke="#22518b" stroke-width="2"/>
+      <path d="M 2 8 H 14" stroke="#22518b" stroke-width="2"/>
+    </marker>
+    <marker id="manySoft" markerWidth="16" markerHeight="16" refX="13" refY="8" orient="auto" markerUnits="strokeWidth">
+      <path d="M 2 2 L 14 8 L 2 14" fill="none" stroke="#c89a2f" stroke-width="2"/>
+      <path d="M 2 8 H 14" stroke="#c89a2f" stroke-width="2"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <text x="70" y="64" fill="#0d2748" font-family="Avenir Next, Noto Sans TC, Arial, sans-serif" font-size="34" font-weight="900">ERD / 資料表關聯圖</text>
+  <text x="70" y="96" class="note">核心流程以 Order 為中心，串接使用者、模型檔、付款、門市、材料、通知與狀態紀錄。</text>
+
+  <g transform="translate(690 330)">
+    <rect class="entity-main" width="230" height="210" rx="8"/>
+    <rect class="header-main" width="230" height="46" rx="8"/>
+    <path d="M0 38 H230 V46 H0 Z" fill="#e45643"/>
+    <text class="title" x="18" y="31">Order</text>
+    <text class="field pk" x="18" y="76">PK order_id</text>
+    <text class="field fk" x="18" y="105">FK user_id</text>
+    <text class="field fk" x="18" y="134">FK store_id</text>
+    <text class="field fk" x="18" y="163">FK material_id</text>
+    <text class="field" x="18" y="192">status, amount</text>
+  </g>
+
+  <g transform="translate(110 160)">
+    <rect class="entity" width="220" height="168" rx="8"/>
+    <rect class="header" width="220" height="44" rx="8"/>
+    <path d="M0 36 H220 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">User</text>
+    <text class="field pk" x="16" y="72">PK user_id</text>
+    <text class="field" x="16" y="101">name</text>
+    <text class="field" x="16" y="130">phone / email</text>
+    <text class="field" x="16" y="159">role</text>
+  </g>
+
+  <g transform="translate(110 572)">
+    <rect class="entity" width="220" height="146" rx="8"/>
+    <rect class="header" width="220" height="44" rx="8"/>
+    <path d="M0 36 H220 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">Material</text>
+    <text class="field pk" x="16" y="72">PK material_id</text>
+    <text class="field" x="16" y="101">name, color</text>
+    <text class="field" x="16" y="130">unit_price</text>
+  </g>
+
+  <g transform="translate(420 130)">
+    <rect class="entity" width="230" height="174" rx="8"/>
+    <rect class="header" width="230" height="44" rx="8"/>
+    <path d="M0 36 H230 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">ModelFile</text>
+    <text class="field pk" x="16" y="72">PK model_file_id</text>
+    <text class="field fk" x="16" y="101">FK order_id</text>
+    <text class="field" x="16" y="130">format, size</text>
+    <text class="field" x="16" y="159">storage_url</text>
+  </g>
+
+  <g transform="translate(970 130)">
+    <rect class="entity" width="230" height="174" rx="8"/>
+    <rect class="header" width="230" height="44" rx="8"/>
+    <path d="M0 36 H230 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">Payment</text>
+    <text class="field pk" x="16" y="72">PK payment_id</text>
+    <text class="field fk" x="16" y="101">FK order_id</text>
+    <text class="field" x="16" y="130">method, status</text>
+    <text class="field" x="16" y="159">paid_at</text>
+  </g>
+
+  <g transform="translate(1270 160)">
+    <rect class="entity" width="230" height="168" rx="8"/>
+    <rect class="header" width="230" height="44" rx="8"/>
+    <path d="M0 36 H230 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">Store</text>
+    <text class="field pk" x="16" y="72">PK store_id</text>
+    <text class="field" x="16" y="101">name, address</text>
+    <text class="field" x="16" y="130">open_status</text>
+    <text class="field" x="16" y="159">service_area</text>
+  </g>
+
+  <g transform="translate(1270 402)">
+    <rect class="entity" width="230" height="146" rx="8"/>
+    <rect class="header" width="230" height="44" rx="8"/>
+    <path d="M0 36 H230 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">Printer</text>
+    <text class="field pk" x="16" y="72">PK printer_id</text>
+    <text class="field fk" x="16" y="101">FK store_id</text>
+    <text class="field" x="16" y="130">status, capacity</text>
+  </g>
+
+  <g transform="translate(970 586)">
+    <rect class="entity" width="250" height="150" rx="8"/>
+    <rect class="header" width="250" height="44" rx="8"/>
+    <path d="M0 36 H250 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">Notification</text>
+    <text class="field pk" x="16" y="72">PK notification_id</text>
+    <text class="field fk" x="16" y="101">FK order_id</text>
+    <text class="field" x="16" y="130">channel, sent_status</text>
+  </g>
+
+  <g transform="translate(390 586)">
+    <rect class="entity" width="260" height="150" rx="8"/>
+    <rect class="header" width="260" height="44" rx="8"/>
+    <path d="M0 36 H260 V44 H0 Z" fill="#22518b"/>
+    <text class="title" x="16" y="30">OrderStatusLog</text>
+    <text class="field pk" x="16" y="72">PK log_id</text>
+    <text class="field fk" x="16" y="101">FK order_id</text>
+    <text class="field" x="16" y="130">from_status, to_status</text>
+  </g>
+
+  <g transform="translate(420 778)">
+    <rect class="entity" width="220" height="86" rx="8"/>
+    <rect class="header" width="220" height="36" rx="8"/>
+    <path d="M0 28 H220 V36 H0 Z" fill="#22518b"/>
+    <text class="title" x="14" y="26" font-size="18">Review</text>
+    <text class="field" x="14" y="62">risk_level, result</text>
+  </g>
+
+  <g transform="translate(690 778)">
+    <rect class="entity" width="220" height="86" rx="8"/>
+    <rect class="header" width="220" height="36" rx="8"/>
+    <path d="M0 28 H220 V36 H0 Z" fill="#22518b"/>
+    <text class="title" x="14" y="26" font-size="18">Refund</text>
+    <text class="field" x="14" y="62">reason, refund_status</text>
+  </g>
+
+  <g transform="translate(970 778)">
+    <rect class="entity" width="220" height="86" rx="8"/>
+    <rect class="header" width="220" height="36" rx="8"/>
+    <path d="M0 28 H220 V36 H0 Z" fill="#22518b"/>
+    <text class="title" x="14" y="26" font-size="18">PickupRecord</text>
+    <text class="field" x="14" y="62">picked_at, staff_id</text>
+  </g>
+
+  <g transform="translate(110 778)">
+    <rect class="entity" width="220" height="86" rx="8"/>
+    <rect class="header" width="220" height="36" rx="8"/>
+    <path d="M0 28 H220 V36 H0 Z" fill="#22518b"/>
+    <text class="title" x="14" y="26" font-size="18">PriceRule</text>
+    <text class="field" x="14" y="62">material, volume, time</text>
+  </g>
+
+  <g transform="translate(1270 778)">
+    <rect class="entity" width="250" height="86" rx="8"/>
+    <rect class="header" width="250" height="36" rx="8"/>
+    <path d="M0 28 H250 V36 H0 Z" fill="#22518b"/>
+    <text class="title" x="14" y="26" font-size="18">StoreInventory</text>
+    <text class="field" x="14" y="62">store_id, material_id, qty</text>
+  </g>
+
+  <path class="rel" marker-end="url(#many)" d="M330 244 C455 244 545 372 690 398"/>
+  <text class="label" x="386" y="246">User 1 ─ * Order</text>
+
+  <path class="rel" d="M650 218 C690 240 710 280 735 330"/>
+  <text class="label" x="610" y="276">Order 1 ─ 1 ModelFile</text>
+
+  <path class="rel" d="M970 218 C925 248 895 288 866 330"/>
+  <text class="label" x="908" y="276">Order 1 ─ 1 Payment</text>
+
+  <path class="rel" marker-end="url(#many)" d="M1270 244 C1120 260 1000 334 920 406"/>
+  <text class="label" x="1042" y="244">Store 1 ─ * Order</text>
+
+  <path class="rel" marker-end="url(#many)" d="M1385 328 V402"/>
+  <text class="label" x="1402" y="372">1 ─ *</text>
+
+  <path class="rel" marker-end="url(#many)" d="M330 645 C470 605 572 526 690 470"/>
+  <text class="label" x="418" y="552">Material 1 ─ * Order</text>
+
+  <path class="rel" marker-end="url(#many)" d="M690 506 C610 542 572 568 542 586"/>
+  <text class="label" x="506" y="574">1 ─ * 狀態紀錄</text>
+
+  <path class="rel" marker-end="url(#many)" d="M920 498 C970 540 1010 562 1060 586"/>
+  <text class="label" x="974" y="554">1 ─ * 通知</text>
+
+  <path class="rel-soft" marker-end="url(#manySoft)" d="M520 778 V736"/>
+  <path class="rel-soft" marker-end="url(#manySoft)" d="M800 778 V540"/>
+  <path class="rel-soft" marker-end="url(#manySoft)" d="M1080 778 V736"/>
+  <path class="rel-soft" marker-end="url(#manySoft)" d="M220 778 V718"/>
+  <path class="rel-soft" marker-end="url(#manySoft)" d="M1395 778 V548"/>
+
+  <rect x="70" y="826" width="260" height="42" fill="#ffffff" stroke="#22518b" stroke-width="1.5"/>
+  <text class="note" x="88" y="852">紅色核心表：Order；藍色：主資料表；黃虛線：輔助 / 異常處理表</text>
+</svg>

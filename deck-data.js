@@ -130,15 +130,73 @@ window.PRESENTATION_DECK = {
       type: "useCase",
       eyebrow: "Requirement Analysis",
       title: "Use Case 圖與角色互動",
-      actors: [
-        ["顧客", ["註冊登入", "上傳模型", "查看估價", "選擇門市", "付款", "查詢訂單", "取件"]],
-        ["門市人員", ["查看待列印訂單", "更新列印狀態", "確認取件"]],
-        ["客服人員", ["處理列印失敗", "處理退款", "回覆客訴"]],
-        ["管理員", ["管理門市", "管理設備", "管理材料", "管理價格規則"]],
-        ["金流系統", ["付款確認", "退款處理"]],
-        ["通知系統", ["付款通知", "列印完成通知", "異常通知"]]
+      description: "本系統依照不同使用角色分配操作權限，並串接金流與通知系統完成訂單流程。",
+      layout: "three-column-grid",
+      systemBoundary: "超商型智慧 3D 列印服務系統",
+      leftActors: [
+        { id: "customer", name: "顧客", icon: "person", groupId: "customer" },
+        { id: "storeStaff", name: "門市人員", icon: "store", groupId: "store" },
+        { id: "support", name: "客服人員", icon: "headset", groupId: "support" },
+        { id: "admin", name: "管理員", icon: "gear", groupId: "admin" }
       ],
-      takeaway: "Use Case 用來界定系統邊界：哪些事情由使用者完成，哪些由門市、後台或外部系統協助。"
+      externalSystems: [
+        { id: "paymentGateway", name: "金流系統", action: "付款確認" },
+        { id: "notificationSystem", name: "通知系統", action: "發送通知" }
+      ],
+      useCaseGroups: [
+        {
+          id: "customer",
+          actorId: "customer",
+          label: "顧客相關",
+          items: [
+            { id: "login", label: "註冊 / 登入" },
+            { id: "uploadModel", label: "上傳 3D 模型" },
+            { id: "viewQuote", label: "查看估價" },
+            { id: "createOrder", label: "建立訂單" },
+            { id: "queryOrder", label: "查詢訂單" },
+            { id: "pickup", label: "取件" }
+          ]
+        },
+        {
+          id: "store",
+          actorId: "storeStaff",
+          label: "門市人員相關",
+          items: [
+            { id: "viewPrintQueue", label: "查看待列印訂單" },
+            { id: "updatePrintStatus", label: "更新列印狀態" },
+            { id: "confirmPickup", label: "確認取件" }
+          ]
+        },
+        {
+          id: "support",
+          actorId: "support",
+          label: "客服人員相關",
+          items: [
+            { id: "handlePrintFailure", label: "處理列印失敗" },
+            { id: "handleRefund", label: "處理退款" }
+          ]
+        },
+        {
+          id: "admin",
+          actorId: "admin",
+          label: "管理員相關",
+          items: [
+            { id: "manageStores", label: "管理門市" },
+            { id: "managePrinters", label: "管理設備" },
+            { id: "manageMaterials", label: "管理材料" },
+            { id: "managePriceRules", label: "管理價格規則" }
+          ]
+        }
+      ],
+      links: [
+        { from: "customer", to: "customer", type: "actor" },
+        { from: "storeStaff", to: "store", type: "actor" },
+        { from: "support", to: "support", type: "actor" },
+        { from: "admin", to: "admin", type: "actor" },
+        { from: "payment", to: "paymentGateway", type: "external" },
+        { from: "notify", to: "notificationSystem", type: "notify" }
+      ],
+      note: "權限邊界：不同角色只能操作自己負責的功能，例如門市人員只能更新列印與取件狀態，不能修改價格規則；顧客只能查看自己的訂單。"
     },
     {
       type: "swimlane",
@@ -182,6 +240,21 @@ window.PRESENTATION_DECK = {
       handoff: "系統設計不是憑空畫圖，而是根據需求書定義的功能、角色、流程與資料需求往下設計。"
     },
     {
+      type: "designSpecOverview",
+      eyebrow: "Design Spec",
+      title: "系統設計規格書內容總覽",
+      intro: "系統設計規格書是程式設計師把需求書轉成可開發規格的文件，目標是讓前端、後端、資料庫與測試人員都能依同一套設計進行建置。",
+      items: [
+        { title: "架構設計", body: "定義顧客端、後端 API、核心服務、外部服務、門市端與資料儲存的分層關係。" },
+        { title: "模組設計", body: "拆分模型檢查、智慧估價、訂單管理、列印排程、通知與後台管理等模組。" },
+        { title: "資料庫設計", body: "設計 User、Order、ModelFile、Payment、Store、Printer、Material 與狀態紀錄等資料表。" },
+        { title: "介面設計", body: "規劃顧客端上傳、估價、付款、查詢訂單，以及門市端接單與更新狀態的操作畫面。" },
+        { title: "流程設計", body: "定義正常下單流程、訂單狀態機，以及付款失敗、列印失敗、逾期未取等異常流程。" },
+        { title: "API / 權限 / 異常規則", body: "定義前後端 API、角色可操作功能、錯誤訊息、例外狀態與退款處理規則。" }
+      ],
+      handoff: "交付給程式設計師時，這份規格書要能回答：要做哪些模組、資料怎麼流、畫面怎麼接 API、失敗時怎麼處理。"
+    },
+    {
       type: "architecture",
       eyebrow: "System Design",
       title: "系統架構圖",
@@ -205,6 +278,11 @@ window.PRESENTATION_DECK = {
       type: "erd",
       eyebrow: "Data Design",
       title: "ERD / 資料表關聯",
+      image: {
+        src: "./asset/erd-data-model.svg",
+        alt: "超商型智慧 3D 列印服務系統 ERD 圖"
+      },
+      note: "本圖以 Order 為核心資料表，串接使用者、模型檔、付款、門市、材料、通知與訂單狀態紀錄。",
       relations: [
         ["User", "1", "*", "Order"],
         ["Order", "1", "1", "ModelFile"],
@@ -223,6 +301,45 @@ window.PRESENTATION_DECK = {
         ["StoreInventory", "記錄門市材料庫存與可用量"],
         ["PickupRecord", "記錄取件時間、門市人員與確認方式"]
       ]
+    },
+    {
+      type: "moduleIO",
+      eyebrow: "Module Design",
+      title: "模組設計與輸入輸出",
+      intro: "模組設計會把需求拆成可開發的程式單元，並明確定義每個模組需要的輸入資料、處理邏輯與輸出結果。",
+      modules: [
+        {
+          name: "模型檢查模組",
+          input: "STL / OBJ 模型檔、檔案大小、使用者選擇的列印品質",
+          process: "檢查格式、尺寸、破面、設備限制與基本可列印性",
+          output: "格式檢查結果、模型尺寸、體積、可列印狀態與錯誤提示"
+        },
+        {
+          name: "智慧估價模組",
+          input: "模型體積、材料種類、品質設定、支撐材料與預估列印時間",
+          process: "依 PriceRule 計算材料費、時間成本與服務費",
+          output: "預估價格、預估完成時間與可用門市建議"
+        },
+        {
+          name: "訂單管理模組",
+          input: "顧客資料、模型檔、估價結果、取件門市與付款狀態",
+          process: "建立訂單、更新狀態、寫入 OrderStatusLog",
+          output: "訂單編號、目前狀態、狀態歷程與客服查詢資料"
+        },
+        {
+          name: "列印排程模組",
+          input: "門市設備狀態、材料庫存、訂單優先序與列印時間",
+          process: "分配可用印表機、安排列印順序、處理設備故障轉單",
+          output: "列印任務、門市待辦清單、列印中 / 完成 / 失敗狀態"
+        },
+        {
+          name: "通知與異常處理模組",
+          input: "付款結果、列印狀態、退款狀態、逾期未取與高風險模型審核結果",
+          process: "判斷通知時機、產生通知內容、觸發客服或退款流程",
+          output: "付款通知、取件通知、異常通知、退款處理紀錄"
+        }
+      ],
+      takeaway: "程式設計師可依照輸入 / 處理 / 輸出定義 API、資料表欄位、錯誤處理與測試案例。"
     },
     {
       type: "stateMachine",
