@@ -11,7 +11,8 @@ const deck = context.window.PRESENTATION_DECK;
 const slides = deck.slides;
 const titles = slides.map((slide) => slide.title);
 
-assert.ok(slides.length >= 21, `Expected at least 21 slides after SDLC restructuring, got ${slides.length}`);
+assert.equal(slides.length, 21, `Expected 21 slides after deleting page 8, got ${slides.length}`);
+assert.ok(!titles.includes("系統目標與服務定位"), "Page 8 should be removed from the deck");
 
 const sdlcIndex = titles.indexOf("系統開發生命週期與本專題範圍");
 assert.notEqual(sdlcIndex, -1, "Missing SDLC scope slide");
