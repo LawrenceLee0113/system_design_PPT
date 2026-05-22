@@ -1402,6 +1402,22 @@ pre {
   line-height: 1.55;
 }
 
+.requirement-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.requirement-tags span {
+  padding: 7px 9px;
+  border: var(--card-border);
+  background: var(--metric-bg);
+  color: var(--heading);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
 .single-case-images {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1505,6 +1521,401 @@ pre {
     linear-gradient(90deg, var(--grid, rgba(34, 81, 139, 0.11)) 1px, transparent 1px),
     rgba(34, 81, 139, 0.06);
   background-size: 16px 16px;
+}
+
+.stage-divider-slide {
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(22px, 4vw, 56px);
+  align-items: center;
+}
+
+.stage-kicker {
+  width: min(520px, 100%);
+  justify-self: end;
+}
+
+.stage-kicker h2 {
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  line-height: 0.95;
+}
+
+.handoff-flow {
+  display: grid;
+  gap: 14px;
+  width: min(720px, 100%);
+}
+
+.handoff-flow article,
+.stage-handoff-note,
+.system-boundary,
+.actor-grid article,
+.swimlane-grid article,
+.dual-requirements > article,
+.relation-list article,
+.supporting-tables,
+.supporting-tables article,
+.state-track,
+.exception-band,
+.operations-grid article {
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.handoff-flow article {
+  position: relative;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 18px 22px;
+}
+
+.handoff-flow article::after {
+  content: "";
+  position: absolute;
+  left: 62px;
+  bottom: -15px;
+  width: 2px;
+  height: 15px;
+  background: var(--accent-2);
+}
+
+.handoff-flow article:last-child::after {
+  display: none;
+}
+
+.handoff-flow span {
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 950;
+}
+
+.handoff-flow strong {
+  color: var(--heading);
+  font-size: clamp(1.08rem, 1.65vw, 1.35rem);
+  line-height: 1.35;
+}
+
+.handoff-flow .active-stage {
+  border-left: var(--claim-accent);
+}
+
+.handoff-flow em {
+  display: block;
+  margin: 4px 0;
+  color: var(--heading);
+  font-style: normal;
+  font-weight: 850;
+}
+
+.stage-handoff-note {
+  width: min(720px, 100%);
+  margin-top: 14px;
+  padding: 16px 20px;
+  border-left: var(--claim-accent);
+}
+
+.stage-handoff-note.compact {
+  width: min(1180px, 100%);
+  margin: 16px auto 0;
+}
+
+.stage-handoff-note p {
+  margin-bottom: 0;
+}
+
+.usecase-layout,
+.swimlane-grid,
+.dual-requirements,
+.erd-layout,
+.state-track,
+.exception-band,
+.maintenance-layout,
+.operations-grid {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+}
+
+.usecase-layout {
+  display: grid;
+  grid-template-columns: minmax(330px, 0.82fr) minmax(0, 1.18fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.system-boundary {
+  padding: 22px;
+  border-left: var(--claim-accent);
+}
+
+.system-boundary > strong {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--heading);
+  font-size: 1.28rem;
+}
+
+.usecase-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.usecase-chips span,
+.exception-band span,
+.state-track span,
+.arrow-list span {
+  display: inline-block;
+  border: var(--card-border);
+  background: var(--metric-bg);
+  color: var(--heading);
+  font-weight: 900;
+}
+
+.usecase-chips span {
+  padding: 8px 10px;
+  font-size: 0.86rem;
+}
+
+.actor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.actor-grid article {
+  padding: 16px 18px;
+}
+
+.actor-grid h3 {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+}
+
+.actor-grid p {
+  margin-bottom: 0;
+  font-size: clamp(0.86rem, 1.08vw, 0.98rem);
+  line-height: 1.48;
+}
+
+.swimlane-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.swimlane-grid article {
+  min-height: 300px;
+  padding: 18px;
+}
+
+.swimlane-grid strong {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-size: 1.16rem;
+}
+
+.arrow-list {
+  display: grid;
+  gap: 9px;
+}
+
+.arrow-list span {
+  position: relative;
+  padding: 9px 10px;
+  font-size: 0.92rem;
+}
+
+.arrow-list span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 2px;
+  height: 10px;
+  background: var(--accent-2);
+}
+
+.arrow-list span:last-child::after {
+  display: none;
+}
+
+.dual-requirements {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.dual-requirements > article {
+  padding: 18px;
+}
+
+.dual-requirements h3 {
+  margin-bottom: 12px;
+  color: var(--accent);
+  font-size: clamp(1.2rem, 1.85vw, 1.55rem);
+}
+
+.erd-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.relation-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.relation-list article {
+  display: grid;
+  grid-template-columns: 1fr 82px 1fr;
+  gap: 8px;
+  align-items: center;
+  min-height: 72px;
+  padding: 12px 14px;
+}
+
+.relation-list strong {
+  color: var(--heading);
+  font-size: 1rem;
+}
+
+.relation-list span {
+  color: var(--accent-2);
+  font-weight: 950;
+  text-align: center;
+}
+
+.supporting-tables {
+  padding: 18px;
+}
+
+.supporting-tables h3 {
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.supporting-tables article {
+  margin-top: 8px;
+  padding: 11px 13px;
+}
+
+.supporting-tables strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--heading);
+}
+
+.supporting-tables p {
+  margin-bottom: 0;
+  font-size: clamp(0.84rem, 1.05vw, 0.95rem);
+  line-height: 1.42;
+}
+
+.state-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  padding: 24px;
+}
+
+.state-track span {
+  position: relative;
+  min-width: 106px;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.state-track span::after {
+  content: "";
+  position: absolute;
+  right: -23px;
+  top: 50%;
+  width: 22px;
+  height: 2px;
+  background: var(--accent-2);
+}
+
+.state-track span:last-child::after {
+  display: none;
+}
+
+.exception-band {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 14px;
+  align-items: center;
+  width: min(1180px, 100%);
+  margin: 16px auto 0;
+  padding: 18px 22px;
+  border-left: var(--claim-accent);
+}
+
+.exception-band strong {
+  color: var(--heading);
+  font-size: 1.2rem;
+}
+
+.exception-band div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exception-band span {
+  padding: 8px 10px;
+  font-size: 0.9rem;
+}
+
+.screen-grid p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.maintenance-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.58fr);
+  gap: 16px;
+}
+
+.operations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: auto;
+}
+
+.operations-grid article {
+  min-height: 142px;
+  padding: 18px;
+}
+
+.operations-grid span {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--accent-2);
+  font-weight: 950;
+}
+
+.operations-grid h3 {
+  margin-bottom: 8px;
+  font-size: clamp(1rem, 1.45vw, 1.24rem);
+}
+
+.operations-grid p {
+  margin-bottom: 0;
+  font-size: clamp(0.9rem, 1.12vw, 1rem);
+  line-height: 1.48;
 }
 
 .closing-panel {
@@ -1691,7 +2102,8 @@ body.cover-active .deck-page-number {
 
   .slide,
   .title-slide,
-  .stage-slide {
+  .stage-slide,
+  .stage-divider-slide {
     position: relative;
     display: none;
     grid-template-columns: 1fr;
@@ -1731,7 +2143,16 @@ body.cover-active .deck-page-number {
   .case-grid,
   .case-takeaway,
   .single-case-layout,
-  .single-case-images {
+  .single-case-images,
+  .usecase-layout,
+  .actor-grid,
+  .swimlane-grid,
+  .dual-requirements,
+  .erd-layout,
+  .relation-list,
+  .exception-band,
+  .maintenance-layout,
+  .operations-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1740,8 +2161,21 @@ body.cover-active .deck-page-number {
   }
 
   h2,
-  .stage-copy h2 {
+  .stage-copy h2,
+  .stage-kicker h2 {
     font-size: clamp(2rem, 9.5vw, 3.25rem);
+  }
+
+  .stage-kicker,
+  .handoff-flow,
+  .stage-handoff-note {
+    width: 100%;
+    justify-self: auto;
+  }
+
+  .handoff-flow article {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .cover-visual {
@@ -1810,8 +2244,33 @@ body.cover-active .deck-page-number {
 
   .background-chain article::after,
   .sdlc-flow article::after,
-  .stacked-architecture .architecture-flow article::after {
+  .stacked-architecture .architecture-flow article::after,
+  .state-track span::after,
+  .handoff-flow article::after,
+  .arrow-list span::after {
     display: none;
+  }
+
+  .usecase-slide .slide-header,
+  .swimlane-slide .slide-header,
+  .requirement-matrix-slide .slide-header,
+  .erd-slide .slide-header,
+  .state-machine-slide .slide-header,
+  .exception-testing-slide .slide-header,
+  .maintenance-slide .slide-header {
+    margin-bottom: 14px;
+  }
+
+  .swimlane-grid article {
+    min-height: auto;
+  }
+
+  .state-track {
+    padding: 16px;
+  }
+
+  .exception-band {
+    gap: 8px;
   }
 
   .screen-grid i {

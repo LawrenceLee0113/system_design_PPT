@@ -11,6 +11,7 @@ function escapeHtml(value) {
 
 function coverIcon(name) {
   const icons = {
+    "模型取得": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v10H4z"/><path d="M8 7V5h8v2"/><path d="M8 12h8"/><path d="M12 9v6"/></svg>',
     "製作": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16"/><path d="M6 18 15.5 8.5l2 2L8 20H6z"/><path d="M14 6l4 4"/><path d="M10 5h2"/><path d="M5 10h2"/><path d="M17 16h2"/></svg>',
     "上傳": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v10"/><path d="m8 8 4-4 4 4"/><path d="M5 15v4h14v-4"/></svg>',
     "估價": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18H6z"/><path d="M9 7h6"/><path d="M9 11h2"/><path d="M13 11h2"/><path d="M9 15h2"/><path d="M13 15h2"/></svg>',
@@ -60,6 +61,10 @@ function renderTable(columns, rows, className = "", highlightColumn = null) {
         .map((row) => `<div class="matrix-row">${row.map((cell, index) => `<span class="${highlightColumn === index ? "highlight-cell" : ""}">${escapeHtml(cell)}</span>`).join("")}</div>`)
         .join("")}
     </div>`;
+}
+
+function renderArrowList(items, className = "") {
+  return `<div class="arrow-list ${className}">${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>`;
 }
 
 const renderers = {
@@ -159,12 +164,38 @@ const renderers = {
               <strong>原本選項</strong><span>${escapeHtml(slide.market)}</span>
               <strong>3D 列印</strong><span>${escapeHtml(slide.print)}</span>
             </div>
+            ${slide.requirementTags ? `<div class="requirement-tags">${slide.requirementTags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>` : ""}
             <div class="single-case-takeaway"><strong>帶入本專題</strong><p>${escapeHtml(slide.takeaway)}</p></div>
           </article>
           <div class="single-case-images">
             ${slide.images.map((image) => `<figure><img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.label)}" /><figcaption>${escapeHtml(image.label)}</figcaption></figure>`).join("")}
           </div>
         </div>
+      </section>`;
+  },
+
+  stageDivider(slide) {
+    return `
+      <section class="slide stage-divider-slide" data-title="${escapeHtml(slide.title)}">
+        <div class="stage-kicker">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </div>
+        <div class="handoff-flow">
+          <article>
+            <span>上一階段交付</span>
+            <strong>${escapeHtml(slide.previousDeliverable)}</strong>
+          </article>
+          <article class="active-stage">
+            <span>本階段工作</span>
+            <div>${slide.currentWork.map((item) => `<em>${escapeHtml(item)}</em>`).join("")}</div>
+          </article>
+          <article>
+            <span>下一階段交付</span>
+            <strong>${escapeHtml(slide.nextDeliverable)}</strong>
+          </article>
+        </div>
+        <div class="stage-handoff-note"><p>${escapeHtml(slide.handoff)}</p></div>
       </section>`;
   },
 
@@ -237,6 +268,28 @@ const renderers = {
       </section>`;
   },
 
+  swimlane(slide) {
+    return `
+      <section class="slide swimlane-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="note-panel"><p>${escapeHtml(slide.story)}</p></div>
+        <div class="swimlane-grid">
+          ${slide.lanes
+            .map(
+              ([role, steps]) => `
+              <article>
+                <strong>${escapeHtml(role)}</strong>
+                ${renderArrowList(steps)}
+              </article>`
+            )
+            .join("")}
+        </div>
+      </section>`;
+  },
+
   requirements(slide) {
     return `
       <section class="slide requirements-slide" data-title="需求摘要">
@@ -246,6 +299,61 @@ const renderers = {
         </header>
         <div class="note-panel"><p>${escapeHtml(slide.intro)}</p></div>
         ${renderTable(slide.columns, slide.rows)}
+      </section>`;
+  },
+
+  useCase(slide) {
+    return `
+      <section class="slide usecase-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="usecase-layout">
+          <div class="system-boundary">
+            <strong>服務系統邊界</strong>
+            <div class="usecase-chips">
+              ${slide.actors
+                .flatMap(([, cases]) => cases)
+                .filter((item, index, array) => array.indexOf(item) === index)
+                .slice(0, 18)
+                .map((item) => `<span>${escapeHtml(item)}</span>`)
+                .join("")}
+            </div>
+          </div>
+          <div class="actor-grid">
+            ${slide.actors
+              .map(
+                ([actor, cases]) => `
+                <article>
+                  <h3>${escapeHtml(actor)}</h3>
+                  <p>${cases.map((item) => escapeHtml(item)).join("、")}</p>
+                </article>`
+              )
+              .join("")}
+          </div>
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+      </section>`;
+  },
+
+  requirementMatrix(slide) {
+    return `
+      <section class="slide requirement-matrix-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="dual-requirements">
+          <article>
+            <h3>功能需求</h3>
+            ${renderTable(["功能模組", "功能說明"], slide.functional, "compact-matrix")}
+          </article>
+          <article>
+            <h3>非功能需求</h3>
+            ${renderTable(["需求", "具體說明"], slide.nonFunctional, "compact-matrix")}
+          </article>
+        </div>
       </section>`;
   },
 
@@ -274,9 +382,92 @@ const renderers = {
         </header>
         <div class="note-panel"><p>${escapeHtml(slide.intro)}</p></div>
         <div class="screen-grid">
-          ${slide.screens.map((screen, index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(screen)}</strong><i></i></article>`).join("")}
+          ${slide.screens
+            .map((screen, index) => {
+              const title = Array.isArray(screen) ? screen[0] : screen;
+              const body = Array.isArray(screen) ? screen[1] : "";
+              return `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(title)}</strong>${body ? `<p>${escapeHtml(body)}</p>` : ""}<i></i></article>`;
+            })
+            .join("")}
         </div>
         <div class="prototype-priority"><p>${escapeHtml(slide.priority)}</p></div>
+      </section>`;
+  },
+
+  erd(slide) {
+    return `
+      <section class="slide erd-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="erd-layout">
+          <div class="relation-list">
+            ${slide.relations.map(([left, leftCardinality, rightCardinality, right]) => `<article><strong>${escapeHtml(left)}</strong><span>${escapeHtml(leftCardinality)} ─ ${escapeHtml(rightCardinality)}</span><strong>${escapeHtml(right)}</strong></article>`).join("")}
+          </div>
+          <div class="supporting-tables">
+            <h3>新增資料表</h3>
+            ${slide.tables.map(([table, body]) => `<article><strong>${escapeHtml(table)}</strong><p>${escapeHtml(body)}</p></article>`).join("")}
+          </div>
+        </div>
+      </section>`;
+  },
+
+  stateMachine(slide) {
+    return `
+      <section class="slide state-machine-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="state-track">
+          ${slide.normal.map((state) => `<span>${escapeHtml(state)}</span>`).join("")}
+        </div>
+        <div class="exception-band">
+          <strong>異常狀態</strong>
+          <div>${slide.exceptions.map((state) => `<span>${escapeHtml(state)}</span>`).join("")}</div>
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.rule)}</p></div>
+      </section>`;
+  },
+
+  exceptionTesting(slide) {
+    return `
+      <section class="slide exception-testing-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="dual-requirements">
+          <article>
+            <h3>異常流程</h3>
+            ${renderTable(["異常情境", "系統處理"], slide.exceptions, "compact-matrix")}
+          </article>
+          <article>
+            <h3>驗收測試</h3>
+            ${renderTable(["測試項目", "預期結果"], slide.tests, "compact-matrix")}
+          </article>
+        </div>
+      </section>`;
+  },
+
+  maintenance(slide) {
+    return `
+      <section class="slide maintenance-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="maintenance-layout">
+          <div class="operations-grid">
+            ${slide.operations.map(([title, body], index) => `<article><span>${String(index + 1).padStart(2, "0")}</span><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></article>`).join("")}
+          </div>
+          <div class="future-panel">
+            <strong>未來擴充順序</strong>
+            ${slide.future.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
+        </div>
+        <div class="positioning-strip"><strong>結論</strong><p>${escapeHtml(slide.conclusion)}</p></div>
       </section>`;
   },
 
