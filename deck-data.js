@@ -141,7 +141,7 @@ window.PRESENTATION_DECK = {
       ],
       externalSystems: [
         { id: "paymentGateway", name: "金流系統", action: "付款確認" },
-        { id: "notificationSystem", name: "通知系統", action: "發送通知" }
+        { id: "notificationSystem", name: "通知系統", action: "訂單 / 取件通知" }
       ],
       useCaseGroups: [
         {
@@ -153,6 +153,7 @@ window.PRESENTATION_DECK = {
             { id: "uploadModel", label: "上傳 3D 模型" },
             { id: "viewQuote", label: "查看估價" },
             { id: "createOrder", label: "建立訂單" },
+            { id: "payment", label: "付款" },
             { id: "queryOrder", label: "查詢訂單" },
             { id: "pickup", label: "取件" }
           ]
@@ -164,7 +165,8 @@ window.PRESENTATION_DECK = {
           items: [
             { id: "viewPrintQueue", label: "查看待列印訂單" },
             { id: "updatePrintStatus", label: "更新列印狀態" },
-            { id: "confirmPickup", label: "確認取件" }
+            { id: "confirmPickup", label: "確認取件" },
+            { id: "sendNotification", label: "發送通知" }
           ]
         },
         {
@@ -194,7 +196,7 @@ window.PRESENTATION_DECK = {
         { from: "support", to: "support", type: "actor" },
         { from: "admin", to: "admin", type: "actor" },
         { from: "payment", to: "paymentGateway", type: "external" },
-        { from: "notify", to: "notificationSystem", type: "notify" }
+        { from: "sendNotification", to: "notificationSystem", type: "notify" }
       ],
       note: "權限邊界：不同角色只能操作自己負責的功能，例如門市人員只能更新列印與取件狀態，不能修改價格規則；顧客只能查看自己的訂單。"
     },

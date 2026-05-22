@@ -1783,20 +1783,20 @@ pre {
 
 .usecase-slide .slide-header {
   width: min(1180px, 100%);
-  max-height: 150px;
-  margin-bottom: 14px;
+  max-height: 170px;
+  margin-bottom: 8px;
 }
 
 .usecase-slide h2 {
-  margin-bottom: 12px;
-  font-size: clamp(3rem, 4.1vw, 3.5rem);
+  margin-bottom: 10px;
+  font-size: clamp(3.375rem, 4vw, 3.75rem);
   line-height: 1;
 }
 
 .usecase-slide .slide-intro {
   max-width: 1040px;
   color: var(--muted);
-  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  font-size: clamp(1.125rem, 1.35vw, 1.25rem);
   line-height: 1.45;
 }
 
@@ -1810,11 +1810,11 @@ pre {
 
 .formal-usecase-board {
   position: relative;
-  width: min(1180px, calc(100% - 40px));
-  height: 352px;
-  margin: 20px auto 0;
+  width: min(1220px, calc(100% - 20px));
+  height: 372px;
+  margin: 18px auto 0;
   overflow: visible;
-  transform: translateY(-24px);
+  transform: translateY(-28px);
 }
 
 .usecase-lines {
@@ -1832,42 +1832,43 @@ pre {
   stroke: #b9c7d9;
   stroke-linecap: round;
   stroke-width: 1.2;
-  opacity: 0.42;
+  opacity: 0.35;
   vector-effect: non-scaling-stroke;
 }
 
 .usecase-link.external {
   stroke: #6d8fb3;
-  stroke-width: 1.45;
-  opacity: 0.58;
+  stroke-width: 1.8;
+  opacity: 0.75;
 }
 
 .usecase-link.notify {
   stroke: #ef5b4f;
-  stroke-width: 1.35;
-  opacity: 0.48;
+  stroke-width: 1.8;
+  opacity: 0.75;
 }
 
 .usecase-main-area {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 160px minmax(610px, 1fr) 180px;
-  column-gap: 32px;
+  grid-template-columns: 160px minmax(720px, 1fr) 210px;
+  column-gap: 28px;
   align-items: center;
-  width: 100%;
+  width: calc(100% - 64px);
   height: 100%;
+  margin: 0 auto;
 }
 
 .usecase-system-boundary {
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: 680px;
-  height: 320px;
-  padding: 42px 22px 20px;
-  border: 2px solid rgba(34, 81, 139, 0.42);
-  border-radius: 18px;
+  max-width: 780px;
+  height: 360px;
+  padding: 48px 22px 18px;
+  border: 2px solid #9fb6d2;
+  border-radius: 20px;
   background:
     linear-gradient(rgba(34, 81, 139, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(34, 81, 139, 0.06) 1px, transparent 1px),
@@ -1877,27 +1878,27 @@ pre {
 
 .usecase-boundary-title {
   position: absolute;
-  left: 20px;
-  top: 14px;
+  left: 22px;
+  top: 16px;
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--heading);
-  font-size: clamp(1rem, 1.35vw, 1.16rem);
+  font-size: clamp(0.96rem, 1.2vw, 1.06rem);
   font-weight: 950;
 }
 
 .usecase-group-grid {
   display: grid;
-  grid-template-rows: 1.18fr 0.92fr 0.82fr 0.92fr;
-  gap: 9px;
+  grid-template-rows: 100px 58px 56px 58px;
+  gap: 8px;
   height: 100%;
 }
 
 .usecase-group {
   display: grid;
   grid-template-columns: 96px 1fr;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   min-height: 0;
 }
@@ -1912,13 +1913,29 @@ pre {
 
 .usecase-pill-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(110px, 1fr));
+  grid-template-columns: repeat(3, minmax(135px, 1fr));
   gap: 8px 10px;
   align-items: center;
 }
 
+.usecase-group-customer .usecase-pill-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.usecase-group-customer .usecase-pill:nth-child(-n + 3) {
+  grid-column: span 4;
+}
+
+.usecase-group-customer .usecase-pill:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.usecase-group-store .usecase-pill-grid {
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+}
+
 .usecase-group-admin .usecase-pill-grid {
-  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
 }
 
 .usecase-pill {
@@ -1927,24 +1944,25 @@ pre {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 0;
-  height: 36px;
+  min-width: 135px;
+  height: 42px;
   padding: 0 12px;
-  border: 1px solid #bfd0e5;
+  border: 1.5px solid #b9cce3;
   border-radius: 999px;
-  background: #eef6ff;
+  background: rgba(238, 246, 255, 0.85);
   color: #0f2b4c;
-  font-size: 0.9rem;
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1.2;
   text-align: center;
-  box-shadow: 0 6px 16px rgba(34, 81, 139, 0.08);
+  box-shadow: 0 3px 8px rgba(34, 81, 139, 0.05);
 }
 
 .diagram-actors {
   display: grid;
-  gap: 24px;
+  gap: 23px;
   justify-items: center;
+  transform: translateX(10px);
 }
 
 .diagram-actor {
@@ -1987,8 +2005,9 @@ pre {
 
 .external-systems {
   display: grid;
-  gap: 24px;
+  gap: 30px;
   justify-items: stretch;
+  transform: translateX(-8px);
 }
 
 .external-system {
@@ -1997,7 +2016,7 @@ pre {
   display: grid;
   justify-items: center;
   gap: 5px;
-  min-height: 96px;
+  min-height: 100px;
   padding: 12px 10px;
   border: var(--card-border);
   border-left: var(--claim-accent);
@@ -2021,14 +2040,14 @@ pre {
 .permission-note {
   position: absolute;
   left: 48px;
-  right: 48px;
-  bottom: 112px;
+  right: 90px;
+  bottom: 42px;
   z-index: 3;
   display: flex;
   align-items: center;
-  min-height: 48px;
-  padding: 0 24px;
-  border: var(--card-border);
+  min-height: 42px;
+  padding: 0 22px;
+  border: 1px solid #d6e0eb;
   border-left: 6px solid #ef5b4f;
   background: rgba(255, 255, 255, 0.92);
 }
@@ -2036,9 +2055,9 @@ pre {
 .permission-note p {
   margin-bottom: 0;
   color: #102a43;
-  font-size: 0.94rem;
-  font-weight: 650;
-  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .actor-grid {
@@ -2695,6 +2714,7 @@ body.cover-active .deck-page-number {
   .usecase-main-area {
     grid-template-columns: 68px minmax(0, 1fr) 76px;
     column-gap: 8px;
+    width: 100%;
   }
 
   .usecase-system-boundary {
@@ -2722,12 +2742,19 @@ body.cover-active .deck-page-number {
   }
 
   .usecase-pill-grid,
+  .usecase-group-customer .usecase-pill-grid,
+  .usecase-group-store .usecase-pill-grid,
   .usecase-group-admin .usecase-pill-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
   }
 
+  .usecase-group-customer .usecase-pill:nth-child(n) {
+    grid-column: auto;
+  }
+
   .usecase-pill {
+    min-width: 0;
     height: 25px;
     padding: 0 4px;
     font-size: 0.52rem;

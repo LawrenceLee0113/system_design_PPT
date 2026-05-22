@@ -74,7 +74,15 @@ assert.ok(
 );
 assert.deepEqual(
   Array.from(useCaseSlide.links, (link) => `${link.from}->${link.to}`),
-  ["customer->customer", "storeStaff->store", "support->support", "admin->admin", "payment->paymentGateway", "notify->notificationSystem"]
+  ["customer->customer", "storeStaff->store", "support->support", "admin->admin", "payment->paymentGateway", "sendNotification->notificationSystem"]
+);
+assert.ok(
+  useCaseSlide.useCaseGroups.find((group) => group.id === "customer")?.items.some((item) => item.label === "付款"),
+  "Customer use cases should include payment"
+);
+assert.ok(
+  useCaseSlide.useCaseGroups.some((group) => group.items.some((item) => item.label === "發送通知")),
+  "Use Case diagram should include an explicit send-notification use case"
 );
 assert.ok(
   useCaseSlide.note.includes("權限邊界"),

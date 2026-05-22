@@ -316,13 +316,12 @@ const renderers = {
 
   useCase(slide) {
     const actorLines = [
-      ["actor", "M 12 16 L 24 16"],
-      ["actor", "M 12 38 L 24 38"],
-      ["actor", "M 12 58 L 24 58"],
-      ["actor", "M 12 77 L 24 77"],
-      ["external", "M 78 30 L 89 30"],
-      ["notify", "M 78 47 L 89 66"],
-      ["notify", "M 78 57 L 89 66"]
+      ["actor", "M 13 18 L 25 18"],
+      ["actor", "M 13 42 L 25 42"],
+      ["actor", "M 13 59 L 25 59"],
+      ["actor", "M 13 77 L 25 77"],
+      ["external", "M 75 32 L 88 32"],
+      ["notify", "M 75 51 L 88 68"]
     ]
       .map(([type, d]) => `<path class="usecase-link ${escapeHtml(type)}" d="${escapeHtml(d)}" />`)
       .join("");
