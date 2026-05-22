@@ -11,7 +11,7 @@ const deck = context.window.PRESENTATION_DECK;
 const slides = deck.slides;
 const titles = slides.map((slide) => slide.title);
 
-assert.equal(slides.length, 23, `Expected 23 slides after adding system design detail pages, got ${slides.length}`);
+assert.equal(slides.length, 25, `Expected 25 slides after adding interface and flow design pages, got ${slides.length}`);
 assert.ok(!titles.includes("系統目標與服務定位"), "Page 8 should be removed from the deck");
 
 const sdlcIndex = titles.indexOf("系統開發生命週期與本專題範圍");
@@ -88,6 +88,11 @@ assert.ok(
   "Design spec overview should include API, permission, and exception rules"
 );
 
+assert.equal(slides[14].title, "系統架構圖", "Slide 15 should remain the architecture slide");
+assert.equal(slides[14].type, "architecture");
+assert.equal(slides[14].layout, "interaction-map", "Architecture slide should show module interactions");
+assert.ok(slides[14].flows.length >= 8, "Architecture slide should include interaction flows between modules");
+
 assert.equal(slides[16].title, "模組設計與輸入輸出", "Slide 17 should explain module inputs and outputs");
 assert.equal(slides[16].type, "moduleIO");
 assert.ok(
@@ -99,8 +104,35 @@ assert.ok(
   "Module IO slide should include the quote module output"
 );
 
+assert.equal(slides[17].title, "介面設計", "Slide 18 should be the interface design slide");
+assert.equal(slides[17].type, "interfaceDesign");
+assert.deepEqual(
+  Array.from(slides[17].screens, (screen) => screen.src),
+  ["./asset/模型市集.png", "./asset/模型製作.png", "./asset/自己的倉庫.png", "./asset/後台.png"]
+);
+
+assert.equal(slides[18].title, "流程設計", "Slide 19 should be the flow design slide");
+assert.equal(slides[18].type, "flowDesign");
+assert.deepEqual(
+  Array.from(slides[18].steps, (step) => step.src),
+  ["./asset/1.png", "./asset/2.png", "./asset/3.png", "./asset/4.png"]
+);
+
 const erdSlide = slides[15];
 assert.equal(erdSlide.title, "ERD / 資料表關聯", "Slide 16 should remain the ERD slide after new P14 insertion");
 assert.equal(erdSlide.image?.src, "./asset/erd-data-model.svg", "Slide 15 should embed the ERD image asset");
 assert.ok(fs.existsSync(new URL("../asset/erd-data-model.svg", import.meta.url)), "Missing ERD image asset");
 assert.ok(fs.existsSync(new URL("../asset/erd-data-model.png", import.meta.url)), "Missing ERD PNG export");
+
+for (const imagePath of [
+  "../asset/模型市集.png",
+  "../asset/模型製作.png",
+  "../asset/自己的倉庫.png",
+  "../asset/後台.png",
+  "../asset/1.png",
+  "../asset/2.png",
+  "../asset/3.png",
+  "../asset/4.png"
+]) {
+  assert.ok(fs.existsSync(new URL(imagePath, import.meta.url)), `Missing slide image asset: ${imagePath}`);
+}

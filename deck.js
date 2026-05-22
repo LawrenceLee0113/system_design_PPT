@@ -389,6 +389,34 @@ const renderers = {
   },
 
   architecture(slide) {
+    if (slide.layout === "interaction-map") {
+      const flowRows = slide.flows.map(([from, to, label]) => `<span><strong>${escapeHtml(from)}</strong><i>${escapeHtml(label)}</i><strong>${escapeHtml(to)}</strong></span>`).join("");
+      return `
+        <section class="slide architecture-interaction-slide" data-title="${escapeHtml(slide.title)}">
+          <header class="slide-header">
+            <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+            <h2>${escapeHtml(slide.title)}</h2>
+            <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+          </header>
+          <div class="architecture-interaction-layout">
+            <div class="architecture-zones">
+              ${slide.zones
+                .map(
+                  (zone) => `
+                  <section>
+                    <h3>${escapeHtml(zone.title)}</h3>
+                    ${zone.nodes.map((node) => `<article data-node="${escapeHtml(node.id)}"><strong>${escapeHtml(node.title)}</strong><p>${escapeHtml(node.body)}</p></article>`).join("")}
+                  </section>`
+                )
+                .join("")}
+            </div>
+            <aside class="architecture-flow-list">
+              <strong>主要互動關係</strong>
+              ${flowRows}
+            </aside>
+          </div>
+        </section>`;
+    }
     return `
       <section class="slide architecture-slide" data-title="架構資料設計">
         <header class="slide-header">
@@ -517,6 +545,52 @@ const renderers = {
                 <div><strong>處理</strong><p>${escapeHtml(module.process)}</p></div>
                 <div><strong>輸出</strong><p>${escapeHtml(module.output)}</p></div>
               </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+      </section>`;
+  },
+
+  interfaceDesign(slide) {
+    return `
+      <section class="slide image-design-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="design-image-grid">
+          ${slide.screens
+            .map(
+              (screen) => `
+              <figure>
+                <img src="${escapeHtml(screen.src)}" alt="${escapeHtml(screen.title)}" />
+                <figcaption><strong>${escapeHtml(screen.title)}</strong><span>${escapeHtml(screen.body)}</span></figcaption>
+              </figure>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+      </section>`;
+  },
+
+  flowDesign(slide) {
+    return `
+      <section class="slide image-design-slide flow-design-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="design-image-grid flow-step-grid">
+          ${slide.steps
+            .map(
+              (step) => `
+              <figure>
+                <img src="${escapeHtml(step.src)}" alt="${escapeHtml(step.title)}" />
+                <figcaption><em>${escapeHtml(step.label)}</em><strong>${escapeHtml(step.title)}</strong><span>${escapeHtml(step.body)}</span></figcaption>
+              </figure>`
             )
             .join("")}
         </div>

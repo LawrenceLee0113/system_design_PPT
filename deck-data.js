@@ -258,6 +258,49 @@ window.PRESENTATION_DECK = {
       type: "architecture",
       eyebrow: "System Design",
       title: "系統架構圖",
+      layout: "interaction-map",
+      intro: "此圖強調各模組之間如何互動：使用者從前端送出需求，後端 API 負責協調模型檢查、估價、付款、排程、通知與資料儲存。",
+      zones: [
+        {
+          title: "前端介面",
+          nodes: [
+            { id: "customerApp", title: "顧客端 Web / App", body: "模型市集、模型製作、自己的倉庫、訂單追蹤" },
+            { id: "storePortal", title: "門市端 / 後台", body: "待列印訂單、設備狀態、材料庫存、取件確認" }
+          ]
+        },
+        {
+          title: "後端服務",
+          nodes: [
+            { id: "api", title: "API Server", body: "登入權限、請求驗證、流程協調、狀態更新" },
+            { id: "modelCheck", title: "模型檢查模組", body: "格式、尺寸、破面、設備限制檢查" },
+            { id: "quote", title: "智慧估價模組", body: "體積、材料、品質、時間與價格規則" },
+            { id: "order", title: "訂單管理模組", body: "建立訂單、付款狀態、狀態歷程" },
+            { id: "schedule", title: "列印排程模組", body: "設備分配、列印順序、故障轉單" },
+            { id: "notify", title: "通知服務", body: "付款、列印完成、異常與逾期提醒" }
+          ]
+        },
+        {
+          title: "外部與資料層",
+          nodes: [
+            { id: "payment", title: "金流服務", body: "付款確認、退款處理" },
+            { id: "database", title: "Database", body: "User、Order、Payment、Store、Printer、Material" },
+            { id: "storage", title: "File Storage", body: "STL / OBJ 模型檔與檢查結果" }
+          ]
+        }
+      ],
+      flows: [
+        ["顧客端", "API Server", "上傳模型 / 下單"],
+        ["API Server", "模型檢查", "檢查檔案"],
+        ["模型檢查", "檔案儲存", "存模型與檢查結果"],
+        ["模型檢查", "智慧估價", "回傳尺寸與體積"],
+        ["智慧估價", "訂單管理", "建立估價與訂單"],
+        ["訂單管理", "金流服務", "付款確認"],
+        ["訂單管理", "列印排程", "付款後排程"],
+        ["列印排程", "門市端", "派送待列印任務"],
+        ["門市端", "訂單管理", "更新列印 / 取件狀態"],
+        ["訂單管理", "通知服務", "觸發付款、完成、異常通知"],
+        ["API Server", "Database", "讀寫系統資料"]
+      ],
       layers: [
         ["顧客端 Web / App", "模型上傳、材質選擇、估價、付款、訂單追蹤"],
         ["後端 API Server", "使用者管理、訂單管理、權限控管、流程協調"],
@@ -340,6 +383,32 @@ window.PRESENTATION_DECK = {
         }
       ],
       takeaway: "程式設計師可依照輸入 / 處理 / 輸出定義 API、資料表欄位、錯誤處理與測試案例。"
+    },
+    {
+      type: "interfaceDesign",
+      eyebrow: "Interface Design",
+      title: "介面設計",
+      intro: "介面設計把需求轉成可操作畫面，讓顧客端與後台端都能依照同一套流程完成模型管理、下單與門市管理。",
+      screens: [
+        { title: "模型市集", src: "./asset/模型市集.png", body: "使用者瀏覽可列印模型，作為上傳或下單入口。" },
+        { title: "模型製作", src: "./asset/模型製作.png", body: "使用者建立或編輯模型，銜接後續模型檢查與估價。" },
+        { title: "自己的倉庫", src: "./asset/自己的倉庫.png", body: "管理已上傳模型、列印紀錄與再次下單需求。" },
+        { title: "後台", src: "./asset/後台.png", body: "門市或管理者查看訂單、設備、材料與營運狀態。" }
+      ],
+      takeaway: "這些畫面對應到前端路由、後端 API、權限角色與資料表欄位，是系統設計規格書的一部分。"
+    },
+    {
+      type: "flowDesign",
+      eyebrow: "Flow Design",
+      title: "流程設計",
+      intro: "流程設計示意使用者從模型取得、模型處理、訂單建立到後台管理的主要操作順序。",
+      steps: [
+        { label: "Step 1", title: "選擇或取得模型", src: "./asset/1.png", body: "從模型市集或既有模型進入服務流程。" },
+        { label: "Step 2", title: "製作 / 編輯模型", src: "./asset/2.png", body: "完成模型內容後，準備送交系統檢查。" },
+        { label: "Step 3", title: "管理模型與下單", src: "./asset/3.png", body: "在自己的倉庫管理檔案，選擇要列印的模型。" },
+        { label: "Step 4", title: "後台接單與追蹤", src: "./asset/4.png", body: "後台查看訂單狀態，安排列印與取件通知。" }
+      ],
+      takeaway: "流程設計用來確認每一步都有對應畫面、API、資料表與狀態變更。"
     },
     {
       type: "stateMachine",
