@@ -11,13 +11,18 @@ const deck = context.window.PRESENTATION_DECK;
 const slides = deck.slides;
 const titles = slides.map((slide) => slide.title);
 
-assert.equal(slides.length, 25, `Expected 25 slides after adding interface and flow design pages, got ${slides.length}`);
+assert.equal(slides.length, 31, `Expected 31 slides after adding system-planning pages, got ${slides.length}`);
 assert.ok(!titles.includes("系統目標與服務定位"), "Page 8 should be removed from the deck");
 
 const sdlcIndex = titles.indexOf("系統開發生命週期與本專題範圍");
 assert.notEqual(sdlcIndex, -1, "Missing SDLC scope slide");
 
+const painPointIndex = titles.indexOf("使用者痛點分析");
+assert.notEqual(painPointIndex, -1, "Missing pain-point slide");
+assert.equal(titles[painPointIndex + 1], "專題背景與動機", "Background slide should appear right after pain-point analysis");
+
 const expectedStages = [
+  "題目發想與課程目標",
   "系統規劃",
   "系統需求分析",
   "系統設計",
@@ -27,9 +32,20 @@ const expectedStages = [
 
 const stageSlides = slides.filter((slide) => slide.type === "stageDivider");
 assert.deepEqual(Array.from(stageSlides, (slide) => slide.title), expectedStages);
-assert.equal(titles[sdlcIndex + 1], "系統規劃", "The five SDLC stage sections should start immediately after the SDLC slide");
+assert.equal(titles[sdlcIndex + 1], "題目發想與課程目標", "The first section after the SDLC slide should be the idea and course-goal section");
+const planningStageIndex = titles.indexOf("系統規劃");
+const requirementStageIndex = titles.indexOf("系統需求分析");
+assert.ok(planningStageIndex > 0 && planningStageIndex < requirementStageIndex, "System-planning section should appear before requirement analysis");
+const planningStage = slides[planningStageIndex];
+assert.equal(Boolean(planningStage.isPlaceholder), false, "System-planning section should no longer be an empty placeholder");
+assert.deepEqual(
+  Array.from(titles.slice(planningStageIndex + 1, planningStageIndex + 5)),
+  ["系統規劃：專案背景", "系統功能規劃", "我們怎麼一步一步把它做出來", "現行挑戰與應對"]
+);
+assert.equal(titles[planningStageIndex + 5], "系統需求分析", "Requirement analysis should follow the system-planning pages");
 
 for (const stage of stageSlides) {
+  if (stage.isPlaceholder) continue;
   assert.ok(stage.previousDeliverable, `${stage.title} is missing previousDeliverable`);
   assert.ok(stage.currentWork?.length, `${stage.title} is missing currentWork`);
   assert.ok(stage.nextDeliverable, `${stage.title} is missing nextDeliverable`);
@@ -81,50 +97,55 @@ assert.ok(
   "Use Case diagram should include the permission-boundary note"
 );
 
-assert.equal(slides[13].title, "系統設計規格書內容總覽", "Slide 14 should summarize system design spec contents");
-assert.equal(slides[13].type, "designSpecOverview");
+const designSpecSlide = slides.find((slide) => slide.title === "系統設計規格書內容總覽");
+assert.equal(designSpecSlide.type, "designSpecOverview");
 assert.ok(
-  slides[13].items.some((item) => item.title === "API / 權限 / 異常規則"),
+  designSpecSlide.items.some((item) => item.title === "API / 權限 / 異常規則"),
   "Design spec overview should include API, permission, and exception rules"
 );
 
-assert.equal(slides[14].title, "系統架構圖", "Slide 15 should remain the architecture slide");
-assert.equal(slides[14].type, "architecture");
-assert.equal(slides[14].layout, "interaction-map", "Architecture slide should show module interactions");
-assert.ok(slides[14].flows.length >= 8, "Architecture slide should include interaction flows between modules");
+const architectureSlide = slides.find((slide) => slide.title === "系統架構圖");
+assert.equal(architectureSlide.type, "architecture");
+assert.equal(architectureSlide.layout, "interaction-map", "Architecture slide should show module interactions");
+assert.ok(architectureSlide.flows.length >= 8, "Architecture slide should include interaction flows between modules");
 
-assert.equal(slides[16].title, "模組設計與輸入輸出", "Slide 17 should explain module inputs and outputs");
-assert.equal(slides[16].type, "moduleIO");
+const moduleIOSlide = slides.find((slide) => slide.title === "模組設計與輸入輸出");
+assert.equal(moduleIOSlide.type, "moduleIO");
 assert.ok(
-  slides[16].modules.some((module) => module.name === "模型檢查模組" && module.input.includes("STL / OBJ")),
+  moduleIOSlide.modules.some((module) => module.name === "模型檢查模組" && module.input.includes("STL / OBJ")),
   "Module IO slide should include the model-checking module input"
 );
 assert.ok(
-  slides[16].modules.some((module) => module.name === "智慧估價模組" && module.output.includes("預估價格")),
+  moduleIOSlide.modules.some((module) => module.name === "智慧估價模組" && module.output.includes("預估價格")),
   "Module IO slide should include the quote module output"
 );
 
-assert.equal(slides[17].title, "介面設計", "Slide 18 should be the interface design slide");
-assert.equal(slides[17].type, "interfaceDesign");
+const interfaceDesignSlide = slides.find((slide) => slide.title === "介面設計");
+assert.equal(interfaceDesignSlide.type, "interfaceDesign");
 assert.deepEqual(
-  Array.from(slides[17].screens, (screen) => screen.src),
+  Array.from(interfaceDesignSlide.screens, (screen) => screen.src),
   ["./asset/模型市集.png", "./asset/模型製作.png", "./asset/自己的倉庫.png", "./asset/後台.png"]
 );
 
-assert.equal(slides[18].title, "流程設計", "Slide 19 should be the flow design slide");
-assert.equal(slides[18].type, "flowDesign");
+const flowDesignSlide = slides.find((slide) => slide.title === "流程設計");
+assert.equal(flowDesignSlide.type, "flowDesign");
 assert.deepEqual(
-  Array.from(slides[18].steps, (step) => step.src),
+  Array.from(flowDesignSlide.steps, (step) => step.src),
   ["./asset/1.png", "./asset/2.png", "./asset/3.png", "./asset/4.png"]
 );
 
-const erdSlide = slides[15];
-assert.equal(erdSlide.title, "ERD / 資料表關聯", "Slide 16 should remain the ERD slide after new P14 insertion");
+const erdSlide = slides.find((slide) => slide.title === "ERD / 資料表關聯");
 assert.equal(erdSlide.image?.src, "./asset/erd-data-model.svg", "Slide 15 should embed the ERD image asset");
 assert.ok(fs.existsSync(new URL("../asset/erd-data-model.svg", import.meta.url)), "Missing ERD image asset");
 assert.ok(fs.existsSync(new URL("../asset/erd-data-model.png", import.meta.url)), "Missing ERD PNG export");
 
 for (const imagePath of [
+  "../01/圖片/1_3D列印機.png",
+  "../01/圖片/蝦皮3D列印.png",
+  "../01/圖片/系統功能規劃截圖_2.png",
+  "../01/圖片/時程規畫表.png",
+  "../01/圖片/蝦皮店到店圖片.png",
+  "../01/圖片/7-11.jpg",
   "../asset/模型市集.png",
   "../asset/模型製作.png",
   "../asset/自己的倉庫.png",
@@ -132,7 +153,54 @@ for (const imagePath of [
   "../asset/1.png",
   "../asset/2.png",
   "../asset/3.png",
-  "../asset/4.png"
+  "../asset/4.png",
+  "../asset/5.png",
+  "../asset/使用者回味/螢幕擷取畫面 2026-05-22 220617_0.png",
+  "../asset/使用者回味/螢幕擷取畫面 2026-05-22 220948_0.png"
 ]) {
   assert.ok(fs.existsSync(new URL(imagePath, import.meta.url)), `Missing slide image asset: ${imagePath}`);
 }
+
+const planningBackgroundSlide = slides.find((slide) => slide.title === "系統規劃：專案背景");
+assert.equal(planningBackgroundSlide.type, "planningBackground");
+assert.ok(planningBackgroundSlide.solution.includes("不需要買機器"));
+
+const planningScopeSlide = slides.find((slide) => slide.title === "系統功能規劃");
+assert.equal(planningScopeSlide.type, "planningScope");
+assert.equal(planningScopeSlide.image.src, "./01/圖片/系統功能規劃截圖_2.png");
+
+const scheduleSlide = slides.find((slide) => slide.title === "我們怎麼一步一步把它做出來");
+assert.equal(scheduleSlide.type, "planningSchedule");
+assert.equal(scheduleSlide.image.src, "./01/圖片/時程規畫表.png");
+assert.equal(scheduleSlide.phases.length, 5);
+
+const challengeSlide = slides.find((slide) => slide.title === "現行挑戰與應對");
+assert.equal(challengeSlide.type, "planningChallenges");
+assert.equal(challengeSlide.challenges.length, 3);
+
+const prototypeSlide = slides.find((slide) => slide.title === "介面原型與 Demo");
+assert.equal(prototypeSlide.type, "prototype");
+assert.deepEqual(
+  Array.from(prototypeSlide.screens, (screen) => screen.src),
+  [
+    "./asset/模型市集.png",
+    "./asset/1.png",
+    "./asset/2.png",
+    "./asset/3.png",
+    "./asset/4.png",
+    "./asset/5.png",
+    "./asset/後台.png"
+  ]
+);
+
+const feedbackSlide = slides.find((slide) => slide.title === "使用者回饋與版本更新");
+assert.equal(feedbackSlide.type, "feedbackUpdate");
+assert.deepEqual(
+  Array.from(feedbackSlide.items, (item) => item.src),
+  [
+    "./asset/使用者回味/螢幕擷取畫面 2026-05-22 220617_0.png",
+    "./asset/使用者回味/螢幕擷取畫面 2026-05-22 220948_0.png"
+  ]
+);
+assert.ok(feedbackSlide.items[0].update.includes("現場付款"));
+assert.ok(feedbackSlide.items[1].update.includes("AI 模型生成"));

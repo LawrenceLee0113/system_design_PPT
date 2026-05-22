@@ -187,6 +187,20 @@ const renderers = {
   },
 
   stageDivider(slide) {
+    if (slide.isPlaceholder) {
+      return `
+        <section class="slide stage-divider-slide placeholder-stage-slide" data-title="${escapeHtml(slide.title)}">
+          <div class="stage-kicker">
+            <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+            <h2>${escapeHtml(slide.title)}</h2>
+          </div>
+          <div class="placeholder-stage-panel">
+            <strong>內容待補</strong>
+            <p>${escapeHtml(slide.placeholderText)}</p>
+            <span>${escapeHtml(slide.handoff)}</span>
+          </div>
+        </section>`;
+    }
     return `
       <section class="slide stage-divider-slide" data-title="${escapeHtml(slide.title)}">
         <div class="stage-kicker">
@@ -208,6 +222,121 @@ const renderers = {
           </article>
         </div>
         <div class="stage-handoff-note"><p>${escapeHtml(slide.handoff)}</p></div>
+      </section>`;
+  },
+
+  planningBackground(slide) {
+    return `
+      <section class="slide planning-background-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="planning-background-layout">
+          <div class="planning-pain-grid">
+            ${slide.painPoints
+              .map(
+                (item) => `
+                <article>
+                  ${item.image ? `<figure><img src="${escapeHtml(item.image.src)}" alt="${escapeHtml(item.image.alt)}" /></figure>` : ""}
+                  <div>
+                    <h3>${escapeHtml(item.title)}</h3>
+                    <p>${escapeHtml(item.body)}</p>
+                  </div>
+                </article>`
+              )
+              .join("")}
+          </div>
+          <aside class="planning-solution-panel">
+            <strong>系統規劃方向</strong>
+            <p>${escapeHtml(slide.solution)}</p>
+            <span>${escapeHtml(slide.creatorValue)}</span>
+          </aside>
+        </div>
+      </section>`;
+  },
+
+  planningScope(slide) {
+    return `
+      <section class="slide planning-scope-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="planning-scope-layout">
+          <figure class="planning-scope-image">
+            <img src="${escapeHtml(slide.image.src)}" alt="${escapeHtml(slide.image.alt)}" />
+          </figure>
+          <div class="planning-scope-list">
+            ${slide.scopes.map(([title, body]) => `<article><strong>${escapeHtml(title)}</strong><p>${escapeHtml(body)}</p></article>`).join("")}
+          </div>
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+      </section>`;
+  },
+
+  planningSchedule(slide) {
+    return `
+      <section class="slide planning-schedule-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="planning-schedule-layout">
+          <figure class="planning-schedule-image">
+            <img src="${escapeHtml(slide.image.src)}" alt="${escapeHtml(slide.image.alt)}" />
+          </figure>
+          <div class="planning-phase-grid">
+            ${slide.phases
+              .map(
+                ([title, body], index) => `
+                <article>
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <strong>${escapeHtml(title)}</strong>
+                  <p>${escapeHtml(body)}</p>
+                </article>`
+              )
+              .join("")}
+          </div>
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
+      </section>`;
+  },
+
+  planningChallenges(slide) {
+    return `
+      <section class="slide planning-challenges-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="planning-challenge-grid">
+          ${slide.challenges
+            .map(
+              (challenge, index) => `
+              <article>
+                <div class="challenge-copy">
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${escapeHtml(challenge.title)}</h3>
+                  <strong>系統問題</strong>
+                  <p>${escapeHtml(challenge.problem)}</p>
+                  <strong>應對方式</strong>
+                  <p>${escapeHtml(challenge.response)}</p>
+                </div>
+                ${
+                  challenge.images
+                    ? `<div class="challenge-images">${challenge.images.map((image) => `<figure><img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" /></figure>`).join("")}</div>`
+                    : ""
+                }
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
       </section>`;
   },
 
@@ -464,12 +593,20 @@ const renderers = {
           <h2>${escapeHtml(slide.title)}</h2>
         </header>
         <div class="note-panel"><p>${escapeHtml(slide.intro)}</p></div>
-        <div class="screen-grid">
+        <div class="${slide.screens.some((screen) => screen.src) ? "prototype-image-grid" : "screen-grid"}">
           ${slide.screens
             .map((screen, index) => {
-              const title = Array.isArray(screen) ? screen[0] : screen;
-              const body = Array.isArray(screen) ? screen[1] : "";
-              return `<article><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(title)}</strong>${body ? `<p>${escapeHtml(body)}</p>` : ""}<i></i></article>`;
+              const title = Array.isArray(screen) ? screen[0] : screen.title || screen;
+              const body = Array.isArray(screen) ? screen[1] : screen.body || "";
+              const number = screen.no || String(index + 1).padStart(2, "0");
+              if (screen.src) {
+                return `
+                  <figure>
+                    <img src="${escapeHtml(screen.src)}" alt="${escapeHtml(title)}" />
+                    <figcaption><span>${escapeHtml(number)}</span><strong>${escapeHtml(title)}</strong>${body ? `<p>${escapeHtml(body)}</p>` : ""}</figcaption>
+                  </figure>`;
+              }
+              return `<article><span>${escapeHtml(number)}</span><strong>${escapeHtml(title)}</strong>${body ? `<p>${escapeHtml(body)}</p>` : ""}<i></i></article>`;
             })
             .join("")}
         </div>
@@ -635,6 +772,36 @@ const renderers = {
           </div>
         </div>
         <div class="positioning-strip"><strong>結論</strong><p>${escapeHtml(slide.conclusion)}</p></div>
+      </section>`;
+  },
+
+  feedbackUpdate(slide) {
+    return `
+      <section class="slide feedback-update-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+          <p class="slide-intro">${escapeHtml(slide.intro)}</p>
+        </header>
+        <div class="feedback-update-grid">
+          ${slide.items
+            .map(
+              (item, index) => `
+              <article>
+                <figure><img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.title)}" /></figure>
+                <div class="feedback-copy">
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <strong>系統問題</strong>
+                  <p>${escapeHtml(item.problem)}</p>
+                  <strong>版本更新方向</strong>
+                  <p>${escapeHtml(item.update)}</p>
+                </div>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.takeaway)}</p></div>
       </section>`;
   },
 
