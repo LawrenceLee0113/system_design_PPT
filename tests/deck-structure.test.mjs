@@ -3,6 +3,7 @@ import fs from "node:fs";
 import vm from "node:vm";
 
 const source = fs.readFileSync(new URL("../deck-data.js", import.meta.url), "utf8");
+const cssSource = fs.readFileSync(new URL("../deck-base.css", import.meta.url), "utf8");
 const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(source, context);
@@ -11,7 +12,7 @@ const deck = context.window.PRESENTATION_DECK;
 const slides = deck.slides;
 const titles = slides.map((slide) => slide.title);
 
-assert.equal(slides.length, 31, `Expected 31 slides after adding system-planning pages, got ${slides.length}`);
+assert.equal(slides.length, 35, `Expected 35 slides after expanding planning and requirement-analysis pages, got ${slides.length}`);
 assert.ok(!titles.includes("系統目標與服務定位"), "Page 8 should be removed from the deck");
 
 const sdlcIndex = titles.indexOf("系統開發生命週期與本專題範圍");
@@ -44,6 +45,23 @@ assert.deepEqual(
 );
 assert.equal(titles[planningStageIndex + 5], "系統需求分析", "Requirement analysis should follow the system-planning pages");
 
+assert.deepEqual(
+  Array.from(titles.slice(requirementStageIndex, requirementStageIndex + 8)),
+  [
+    "系統需求分析",
+    "需求來源整理：痛點到系統需求",
+    "Use Case 圖與角色互動",
+    "使用者情境與主要流程",
+    "功能需求分析",
+    "非功能需求分析",
+    "系統需求書交付內容",
+    "從需求分析接續系統設計"
+  ],
+  "SDLC 02 requirement-analysis section should match the bw_main handoff sequence"
+);
+assert.equal(titles[requirementStageIndex + 8], "系統設計", "System design should follow the expanded SDLC 02 section");
+assert.equal(slides[requirementStageIndex].sections.length, 3, "Requirement stage opener should show PM planning, analysis work, and requirement deliverable");
+
 for (const stage of stageSlides) {
   if (stage.isPlaceholder) continue;
   assert.ok(stage.previousDeliverable, `${stage.title} is missing previousDeliverable`);
@@ -53,6 +71,11 @@ for (const stage of stageSlides) {
 
 for (const requiredTitle of [
   "Use Case 圖與角色互動",
+  "需求來源整理：痛點到系統需求",
+  "功能需求分析",
+  "非功能需求分析",
+  "系統需求書交付內容",
+  "從需求分析接續系統設計",
   "訂單狀態機",
   "ERD / 資料表關聯",
   "異常流程與驗收測試"
@@ -90,12 +113,46 @@ assert.ok(
 );
 assert.deepEqual(
   Array.from(useCaseSlide.links, (link) => `${link.from}->${link.to}`),
-  ["customer->customer", "storeStaff->store", "support->support", "admin->admin", "payment->paymentGateway", "notify->notificationSystem"]
+  ["customer->customer", "storeStaff->store", "support->support", "admin->admin", "payment->paymentGateway", "updatePrintStatus->notificationSystem"]
 );
 assert.ok(
   useCaseSlide.note.includes("權限邊界"),
   "Use Case diagram should include the permission-boundary note"
 );
+assert.ok(
+  useCaseSlide.useCaseGroups.find((group) => group.id === "customer")?.items.some((item) => item.label === "付款"),
+  "Customer use cases should include payment from bw_main"
+);
+assert.ok(
+  useCaseSlide.useCaseGroups.find((group) => group.id === "support")?.items.some((item) => item.label === "回覆客訴"),
+  "Support use cases should include complaint replies from bw_main"
+);
+
+const requirementSourceSlide = slides.find((slide) => slide.title === "需求來源整理：痛點到系統需求");
+assert.equal(requirementSourceSlide.type, "table");
+assert.equal(requirementSourceSlide.variant, "source-trace-slide");
+assert.equal(requirementSourceSlide.rows.length, 8);
+
+const swimlaneFlowSlide = slides.find((slide) => slide.title === "使用者情境與主要流程");
+assert.equal(swimlaneFlowSlide.type, "swimlaneFlow");
+assert.deepEqual(Array.from(swimlaneFlowSlide.lanes, (lane) => lane[0]), ["顧客", "系統", "金流系統", "門市人員"]);
+
+const functionalCardsSlide = slides.find((slide) => slide.title === "功能需求分析");
+assert.equal(functionalCardsSlide.type, "functionalCards");
+assert.equal(functionalCardsSlide.modules.length, 10);
+
+const nonFunctionalSlide = slides.find((slide) => slide.title === "非功能需求分析");
+assert.equal(nonFunctionalSlide.type, "table");
+assert.equal(nonFunctionalSlide.splitRows, true);
+assert.equal(nonFunctionalSlide.rows.length, 8);
+
+const requirementDeliverableSlide = slides.find((slide) => slide.title === "系統需求書交付內容");
+assert.equal(requirementDeliverableSlide.type, "table");
+assert.equal(requirementDeliverableSlide.splitRows, true);
+
+const handoffSlide = slides.find((slide) => slide.title === "從需求分析接續系統設計");
+assert.equal(handoffSlide.type, "handoffMap");
+assert.ok(handoffSlide.rows.some(([need, design]) => need === "顧客需要上傳模型" && design.includes("File Storage")));
 
 const designSpecSlide = slides.find((slide) => slide.title === "系統設計規格書內容總覽");
 assert.equal(designSpecSlide.type, "designSpecOverview");
@@ -168,6 +225,8 @@ assert.ok(planningBackgroundSlide.solution.includes("不需要買機器"));
 const planningScopeSlide = slides.find((slide) => slide.title === "系統功能規劃");
 assert.equal(planningScopeSlide.type, "planningScope");
 assert.equal(planningScopeSlide.image.src, "./01/圖片/系統功能規劃截圖_2.png");
+assert.match(cssSource, /\.planning-scope-image img[\s\S]*object-fit: contain/, "Planning scope image should show the full screenshot without cropping");
+assert.match(cssSource, /\.planning-scope-layout[\s\S]*0\.7fr[\s\S]*0\.3fr/, "Planning scope slide should prioritize the planning screenshot");
 
 const scheduleSlide = slides.find((slide) => slide.title === "我們怎麼一步一步把它做出來");
 assert.equal(scheduleSlide.type, "planningSchedule");
@@ -177,6 +236,8 @@ assert.equal(scheduleSlide.phases.length, 5);
 const challengeSlide = slides.find((slide) => slide.title === "現行挑戰與應對");
 assert.equal(challengeSlide.type, "planningChallenges");
 assert.equal(challengeSlide.challenges.length, 3);
+assert.match(cssSource, /\.planning-challenge-grid article\.has-media[\s\S]*grid-column: span 2/, "Challenge slide should make the image-backed challenge the primary visual area");
+assert.match(cssSource, /\.challenge-images img[\s\S]*height: 100%/, "Challenge images should be large enough to act as the main visual");
 
 const prototypeSlide = slides.find((slide) => slide.title === "介面原型與 Demo");
 assert.equal(prototypeSlide.type, "prototype");

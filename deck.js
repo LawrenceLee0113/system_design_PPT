@@ -187,6 +187,28 @@ const renderers = {
   },
 
   stageDivider(slide) {
+    if (slide.sections) {
+      return `
+        <section class="slide stage-divider-slide requirement-opening-slide" data-title="${escapeHtml(slide.title)}">
+          <header class="slide-header">
+            <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+            <h2>${escapeHtml(slide.title)}</h2>
+          </header>
+          <div class="requirement-flow-cards">
+            ${slide.sections
+              .map(
+                (section, index) => `
+                <article>
+                  <span>${String(index + 1).padStart(2, "0")}</span>
+                  <h3>${escapeHtml(section.title)}</h3>
+                  <ul>${section.rows.map((row) => `<li>${escapeHtml(row[0])}</li>`).join("")}</ul>
+                </article>`
+              )
+              .join("")}
+          </div>
+          <div class="stage-handoff-note compact"><p>${escapeHtml(slide.handoff)}</p></div>
+        </section>`;
+    }
     if (slide.isPlaceholder) {
       return `
         <section class="slide stage-divider-slide placeholder-stage-slide" data-title="${escapeHtml(slide.title)}">
@@ -318,7 +340,7 @@ const renderers = {
           ${slide.challenges
             .map(
               (challenge, index) => `
-              <article>
+              <article class="${challenge.images ? "has-media" : ""}">
                 <div class="challenge-copy">
                   <span>${String(index + 1).padStart(2, "0")}</span>
                   <h3>${escapeHtml(challenge.title)}</h3>
@@ -341,14 +363,18 @@ const renderers = {
   },
 
   table(slide) {
+    const rowMidpoint = Math.ceil(slide.rows.length / 2);
+    const tableBody = slide.splitRows
+      ? `<div class="split-table-grid">${[slide.rows.slice(0, rowMidpoint), slide.rows.slice(rowMidpoint)].map((rows) => renderTable(slide.columns, rows, "", slide.highlightColumn)).join("")}</div>`
+      : renderTable(slide.columns, slide.rows, "", slide.highlightColumn);
     return `
-      <section class="slide table-slide" data-title="${escapeHtml(slide.title)}">
+      <section class="slide table-slide ${escapeHtml(slide.variant || "")}" data-title="${escapeHtml(slide.title)}">
         <header class="slide-header">
           <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
           <h2>${escapeHtml(slide.title)}</h2>
         </header>
         ${slide.note ? `<div class="note-panel"><p>${escapeHtml(slide.note)}</p></div>` : ""}
-        ${renderTable(slide.columns, slide.rows, "", slide.highlightColumn)}
+        ${tableBody}
       </section>`;
   },
 
@@ -378,6 +404,76 @@ const renderers = {
         </div>
         <div class="note-panel focus-note"><p>${escapeHtml(slide.focus)}</p></div>
         ${renderTable(slide.columns, slide.rows, "", slide.highlightColumn)}
+      </section>`;
+  },
+
+  functionalCards(slide) {
+    return `
+      <section class="slide functional-cards-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="function-card-grid">
+          ${slide.modules
+            .map(
+              (module, index) => `
+              <article>
+                <span>${String(index + 1).padStart(2, "0")}</span>
+                <h3>${escapeHtml(module.title)}</h3>
+                <p>${escapeHtml(module.body)}</p>
+                <strong>${escapeHtml(module.need)}</strong>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.note)}</p></div>
+      </section>`;
+  },
+
+  swimlaneFlow(slide) {
+    return `
+      <section class="slide swimlane-flow-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="note-panel"><p>${escapeHtml(slide.story)}</p></div>
+        <div class="swimlane-flow-board">
+          ${slide.lanes
+            .map(
+              ([role, steps]) => `
+              <article>
+                <strong>${escapeHtml(role)}</strong>
+                <div>${steps.map((step) => `<span>${escapeHtml(step)}</span>`).join("")}</div>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.note)}</p></div>
+      </section>`;
+  },
+
+  handoffMap(slide) {
+    return `
+      <section class="slide handoff-map-slide" data-title="${escapeHtml(slide.title)}">
+        <header class="slide-header">
+          <p class="eyebrow">${escapeHtml(slide.eyebrow)}</p>
+          <h2>${escapeHtml(slide.title)}</h2>
+        </header>
+        <div class="handoff-map">
+          ${slide.rows
+            .map(
+              ([need, design]) => `
+              <article>
+                <strong>${escapeHtml(need)}</strong>
+                <i aria-hidden="true">→</i>
+                <span>${escapeHtml(design)}</span>
+              </article>`
+            )
+            .join("")}
+        </div>
+        <div class="stage-handoff-note compact"><p>${escapeHtml(slide.note)}</p></div>
       </section>`;
   },
 
