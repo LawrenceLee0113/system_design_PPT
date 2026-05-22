@@ -8,6 +8,12 @@ const context = { window: {} };
 vm.createContext(context);
 vm.runInContext(source, context);
 
+function cssBlock(selector) {
+  const match = cssSource.match(new RegExp(`${selector.replaceAll(".", "\\.")}\\s*\\{([^}]*)\\}`));
+  assert.ok(match, `Missing CSS block for ${selector}`);
+  return match[1];
+}
+
 const deck = context.window.PRESENTATION_DECK;
 const slides = deck.slides;
 const titles = slides.map((slide) => slide.title);
@@ -153,6 +159,15 @@ assert.equal(requirementDeliverableSlide.splitRows, true);
 const handoffSlide = slides.find((slide) => slide.title === "從需求分析接續系統設計");
 assert.equal(handoffSlide.type, "handoffMap");
 assert.ok(handoffSlide.rows.some(([need, design]) => need === "顧客需要上傳模型" && design.includes("File Storage")));
+for (const selector of [
+  ".requirement-opening-slide",
+  ".source-trace-slide",
+  ".swimlane-flow-slide",
+  ".functional-cards-slide",
+  ".handoff-map-slide"
+]) {
+  assert.match(cssBlock(selector), /align-content:\s*center/, `${selector} should be vertically centered like the main deck rhythm`);
+}
 
 const designSpecSlide = slides.find((slide) => slide.title === "系統設計規格書內容總覽");
 assert.equal(designSpecSlide.type, "designSpecOverview");
